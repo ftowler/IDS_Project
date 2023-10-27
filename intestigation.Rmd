@@ -41,6 +41,41 @@ status <- read_csv('data/status.csv')
 
 
 ```
+```{r Gap Between Lap Times}
+results %>%
+  filter(raceId == 1) %>%
+  mutate( 
+    shortestTime = second(max(fastestLapTime, na.rm = TRUE))
+    longestTime = second(min(fastestLapTime, na.rm = TRUE))
+    TimeGap = longestTime - shortestTime
+    )
+```
+
+``` {r Sum of Races Time Per Race}
+#find average split time per season
+#account for pit stop times
+#account for weather
+
+laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
+maxdriverID = max(results$driverId)
+maxraceID = max(results$raceId)
+for (x in maxdriverID ){
+  averagesplittime = 0
+  count = 0
+  for (y in  maxraceID ){
+  
+    results %>%
+    filter(raceId == x) %>%
+    filter(driverId == y)
+    averagesplittime = averagesplittime + results$milliseconds
+    count = count + 1
+  }
+  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
+  }
+      
+  
+  
+    
 
 ```{r constructor_points}
 #Table with Constructor, Season, Total Points
@@ -51,3 +86,5 @@ constructor_results %>%
 
 ```
 
+  
+```
