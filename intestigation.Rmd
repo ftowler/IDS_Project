@@ -86,5 +86,11 @@ constructor_results %>%
 
 ```
 
-  
+```{r constructor}
+constructor_results %>%
+  filter(raceId >= 1, raceId <= 17) %>%
+  group_by(constructorId) %>%
+  summarise(total_points = sum(points))
+```
+
 ```
