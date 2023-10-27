@@ -24,9 +24,20 @@ library(tidyverse)
 
 
 ```{r load-data}
-# load your data 
-
-
+circuits <- read_csv("data/circuits.csv")
+constructor_results <- read_csv('data/constructor_results.csv')
+constructor_standings <- read_csv('data/constructor_standings.csv')
+constructors <- read_csv('data/constructors.csv')
+driver_standings <- read_csv('data/driver_standings.csv')
+drivers.csv <- read_csv('data/drivers.csv')
+lap_times <- read_csv('data/lap_times.csv')
+pit_stops <- read_csv('data/pit_stops.csv')
+qualifying <- read_csv('data/qualifying.csv')
+races <- read_csv('data/races.csv')
+results <- read_csv('data/results.csv')
+seasons <- read_csv('data/seasons.csv')
+sprint_results <- read_csv('data/sprint_results.csv')
+status <- read_csv('data/status.csv')
 
 
 ```
