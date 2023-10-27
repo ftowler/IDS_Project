@@ -56,9 +56,24 @@ results %>%
 #account for pit stop times
 #account for weather
 
-lap_times %>%
-  filter(raceId == 1) %>%
-  filter(driverId == 1) %>% summary(mean)
+laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
+maxdriverID = max(results$driverId)
+maxraceID = max(results$raceId)
+for (x in maxdriverID ){
+  averagesplittime = 0
+  count = 0
+  for (y in  maxraceID ){
+  
+    results %>%
+    filter(raceId == x) %>%
+    filter(driverId == y)
+    averagesplittime = averagesplittime + results$milliseconds
+    count = count + 1
+  }
+  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
+  }
+      
+  
   
     
 
