@@ -74,8 +74,9 @@ for (x in maxdriverID ){
   }
       
   
-  
-    
+  new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
+   new_drivers1<-subset(new_drivers,select=-c(number)) 
+new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
 
 ```{r constructor_points}
 #Table with Constructor, Season, Total Points
