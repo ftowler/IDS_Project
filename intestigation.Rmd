@@ -41,5 +41,27 @@ status <- read_csv('data/status.csv')
 
 
 ```
+```{r Gap Between Lap Times}
+results %>%
+  filter(raceId == 1) %>%
+  mutate( 
+    shortestTime = second(max(fastestLapTime, na.rm = TRUE))
+    longestTime = second(min(fastestLapTime, na.rm = TRUE))
+    TimeGap = longestTime - shortestTime
+    )
+```
+
+``` {r Sum of Races Time Per Race}
+#find average split time per season
+#account for pit stop times
+#account for weather
+
+lap_times %>%
+  filter(raceId == 1) %>%
+  filter(driverId == 1) %>% summary(mean)
+  
+    
 
 
+  
+```
