@@ -73,7 +73,8 @@ for (x in maxdriverID ){
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
       
-  
+ #New tables with driver ID and names, as well as Constructor ID and names
+#Will join with qualfying table.
   new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
    new_drivers1<-subset(new_drivers,select=-c(number)) 
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
