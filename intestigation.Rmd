@@ -72,17 +72,6 @@ for (x in maxdriverID ){
   }
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
-      
-  
-  
-    
-
-```{r constructor_points}
-#Table with Constructor, Season, Total Points
-constructor_results %>%
-  filter(raceId >= 1, raceId <= 17) %>%
-  group_by(constructorId) %>%
-  summarise(total_points = sum(points))
 
 ```
 
