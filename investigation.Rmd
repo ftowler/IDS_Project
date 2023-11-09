@@ -1,6 +1,6 @@
 ---
 title: "Did the 2022 F1 Regulations Improve Racing as Intended"
-author: "by Team-Name: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Wientraub & Alan Zang"
+author: "by Team-Name: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
 date: "`r Sys.Date()`"
 output: html_document
 ---
