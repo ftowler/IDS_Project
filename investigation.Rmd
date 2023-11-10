@@ -49,6 +49,7 @@ results %>%
     longestTime = second(min(fastestLapTime, na.rm = TRUE))
     TimeGap = longestTime - shortestTime
     )
+
 ```
 
 ``` {r Sum of Races Time Per Race}
@@ -73,11 +74,22 @@ for (x in maxdriverID ){
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
       
- #New tables with driver ID and names, as well as Constructor ID and names
-#Will join with qualfying table.
+ 
   new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
    new_drivers1<-subset(new_drivers,select=-c(number)) 
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
+driver_data <- merge(qualifying, new_drivers1, by = "driverId")
+constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
+ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "position.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q1.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
+qd <- as.data.frame(qualifying_data)
+colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
 
 ```{r constructor_points}
 #Table with Constructor, Season, Total Points
