@@ -111,6 +111,12 @@ results %>%
 
 ```
 
+```{r pit stop}
+pit_stops %>%
+  filter(raceId >= 841, raceId<= 858)%>%
+  group_by(driverId)%>%
+  summarise(milliseconds)
+```
 
 ```
 
