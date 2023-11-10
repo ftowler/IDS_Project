@@ -45,8 +45,8 @@ status <- read_csv('data/status.csv')
 results %>%
   filter(raceId == 1) %>%
   mutate( 
-    shortestTime = second(max(fastestLapTime, na.rm = TRUE))
-    longestTime = second(min(fastestLapTime, na.rm = TRUE))
+    shortestTime = (max(fastestLapTime, na.rm = TRUE)),
+    longestTime = (min(fastestLapTime, na.rm = TRUE)),
     TimeGap = longestTime - shortestTime
     )
 
