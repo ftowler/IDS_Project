@@ -41,16 +41,7 @@ status <- read_csv('data/status.csv')
 
 
 ```
-```{r Gap Between Lap Times}
-results %>%
-  filter(raceId == 1) %>%
-  mutate( 
-    shortestTime = (max(fastestLapTime, na.rm = TRUE)),
-    longestTime = (min(fastestLapTime, na.rm = TRUE)),
-    TimeGap = longestTime - shortestTime
-    )
 
-```
 
 ``` {r Sum of Races Time Per Race}
 #find average split time per season
@@ -66,9 +57,10 @@ for (x in maxdriverID ){
   for (y in  maxraceID ){
   
     results %>%
-    filter(raceId == x) %>%
-    filter(driverId == y)
-    averagesplittime = averagesplittime + results$milliseconds
+    filter(raceId == x,na.rm = TRUE) %>%
+    filter(driverId == y, na.rm =TRUE) %>% view()
+    if 
+    averagesplittime = averagesplittime + as.integer(results$milliseconds)
     count = count + 1
   }
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
