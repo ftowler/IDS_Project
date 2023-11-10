@@ -107,4 +107,15 @@ constructor_results %>%
   summarise(total_points = sum(points))
 ```
 
+```{r driver}
+results %>%
+  filter(raceId >= 1, raceId <= 18) %>%
+  group_by(driverId) %>%
+  summarise(total_points = sum(points)) %>%
+  arrange(desc(total_points))
+
 ```
+
+
+```
+
