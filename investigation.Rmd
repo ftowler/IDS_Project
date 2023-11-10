@@ -45,8 +45,8 @@ status <- read_csv('data/status.csv')
 results %>%
   filter(raceId == 1) %>%
   mutate( 
-    shortestTime = second(max(fastestLapTime, na.rm = TRUE))
-    longestTime = second(min(fastestLapTime, na.rm = TRUE))
+    shortestTime = (max(fastestLapTime, na.rm = TRUE)),
+    longestTime = (min(fastestLapTime, na.rm = TRUE)),
     TimeGap = longestTime - shortestTime
     )
 
@@ -73,10 +73,12 @@ for (x in maxdriverID ){
   }
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
-      
- #Made qd, Qualifying table which combines driver and constructor names to qualyfing data table.
-  new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
-   new_drivers1<-subset(new_drivers,select=-c(number)) 
+
+```
+
+```{r Drivers and Constructors}
+new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
+new_drivers1<-subset(new_drivers,select=-c(number)) 
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
 driver_data <- merge(qualifying, new_drivers1, by = "driverId")
 constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
@@ -90,6 +92,7 @@ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
 qd <- as.data.frame(qualifying_data)
 colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
+```
 
 ```{r constructor_points}
 #Table with Constructor, Season, Total Points
@@ -107,4 +110,15 @@ constructor_results %>%
   summarise(total_points = sum(points))
 ```
 
+```{r driver}
+results %>%
+  filter(raceId >= 1, raceId <= 18) %>%
+  group_by(driverId) %>%
+  summarise(total_points = sum(points)) %>%
+  arrange(desc(total_points))
+
 ```
+
+
+```
+
