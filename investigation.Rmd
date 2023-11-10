@@ -73,8 +73,9 @@ for (x in maxdriverID ){
   }
   laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
-      
- 
+```
+
+```{r Drivers and Constructors}
   new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
    new_drivers1<-subset(new_drivers,select=-c(number)) 
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
@@ -90,6 +91,7 @@ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
 qd <- as.data.frame(qualifying_data)
 colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
+```
 
 ```{r constructor_points}
 #Table with Constructor, Season, Total Points
