@@ -96,10 +96,16 @@ constructor_results %>%
 ```
 
 ```{r constructor}
-constructor_results %>%
-  filter(raceId >= 1, raceId <= 17) %>%
-  group_by(constructorId) %>%
-  summarise(total_points = sum(points))
+constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
+season09<-constructorPointsPerSeason%>%
+  filter(raceId>=1,raceId<=17)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season09<-constructorPointsPerSeason%>%
+  filter(raceId>=1,raceId<=17)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+
 ```
 
 ```{r driver}
