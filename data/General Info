@@ -25,3 +25,9 @@ qd = table with constructor and driver names as well as data
 2021 RaceID:1052-1073
 2022 RaceID:1074-1096
 >>>>>>> refs/remotes/origin/main
+
+WHO IS DOING WHAT:
+Dimitri is doing standard deviation of constructor points per season
+Fergus is doing avg split race times per season
+Moses and Alan are doing avg split qualifying 3 times per season
+Eric is doing standard deviation of driver championship points per season
