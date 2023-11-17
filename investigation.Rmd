@@ -48,24 +48,23 @@ status <- read_csv('data/status.csv')
 #account for pit stop times
 #account for weather
 
-laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
-maxdriverID = max(results$driverId)
+split_time = tibble(driverId = c(1:858), averageSplitTime = 0)
 maxraceID = max(results$raceId)
+differencesfunc = function(table) {
+  differences <- 1:1
+  for(x in 1:max(table$position)){
+      append(differences,as.integer(table$milliseconds[x+1])-as.integer(table$milliseconds[x]))
+  }
+  return(differences)
+}
 for (x in maxdriverID ){
   averagesplittime = 0
   count = 0
-  for (y in  maxraceID ){
-  
+  for(y in  maxraceID ){
     results %>%
-    filter(raceId == x,na.rm = TRUE) %>%
-    filter(driverId == y, na.rm =TRUE) %>% view()
-    if 
-    averagesplittime = averagesplittime + as.integer(results$milliseconds)
-    count = count + 1
+    filter(raceId == x) %>% str_replace_all("\\N", NA_character_) %>% arrange(desc(position)) %>%  differencesfunc() #take differences, find mean then add to split time table next to race, use table to find averages of all races
   }
-  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
   }
-
 ```
 
 ```{r Drivers and Constructors}
