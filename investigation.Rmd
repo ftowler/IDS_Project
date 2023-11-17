@@ -1,0 +1,122 @@
+---
+title: "Did the 2022 F1 Regulations Improve Racing as Intended"
+author: "by Team-Name: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+**Note:** You can use this file as you 'working document' where you can try out various investigation ideas and keep notes about your findings. How you use and structure this file is up to you. It is recommended that you keep notes about what you are investigating and what you find as this will make the process of creating your presentation and report easier. Please note that you _do not_ need to submit this file as part of your group project.
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load-lib, message = FALSE}
+library(tidyverse)
+# Add any other libraries here
+
+
+
+```
+
+
+```{r load-data}
+circuits <- read_csv("data/circuits.csv")
+constructor_results <- read_csv('data/constructor_results.csv')
+constructor_standings <- read_csv('data/constructor_standings.csv')
+constructors <- read_csv('data/constructors.csv')
+driver_standings <- read_csv('data/driver_standings.csv')
+drivers.csv <- read_csv('data/drivers.csv')
+lap_times <- read_csv('data/lap_times.csv')
+pit_stops <- read_csv('data/pit_stops.csv')
+qualifying <- read_csv('data/qualifying.csv')
+races <- read_csv('data/races.csv')
+results <- read_csv('data/results.csv')
+seasons <- read_csv('data/seasons.csv')
+sprint_results <- read_csv('data/sprint_results.csv')
+status <- read_csv('data/status.csv')
+
+
+```
+
+
+``` {r Sum of Races Time Per Race}
+#find average split time per season
+#account for pit stop times
+#account for weather
+
+laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
+maxdriverID = max(results$driverId)
+maxraceID = max(results$raceId)
+for (x in maxdriverID ){
+  averagesplittime = 0
+  count = 0
+  for (y in  maxraceID ){
+  
+    results %>%
+    filter(raceId == x,na.rm = TRUE) %>%
+    filter(driverId == y, na.rm =TRUE) %>% view()
+    if 
+    averagesplittime = averagesplittime + as.integer(results$milliseconds)
+    count = count + 1
+  }
+  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
+  }
+
+```
+
+```{r Drivers and Constructors}
+new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
+new_drivers1<-subset(new_drivers,select=-c(number)) 
+new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
+driver_data <- merge(qualifying, new_drivers1, by = "driverId")
+constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
+ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "position.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q1.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
+qd <- as.data.frame(qualifying_data)
+colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
+```
+
+```{r constructor_points}
+#Table with Constructor, Season, Total Points
+constructor_results %>%
+  filter(raceId >= 1, raceId <= 17) %>%
+  group_by(constructorId) %>%
+  summarise(total_points = sum(points))
+
+```
+
+```{r constructor}
+constructor_results %>%
+  filter(raceId >= 1, raceId <= 17) %>%
+  group_by(constructorId) %>%
+  summarise(total_points = sum(points))
+```
+
+```{r driver}
+results %>%
+  filter(raceId >= 1, raceId <= 18) %>%
+  group_by(driverId) %>%
+  summarise(total_points = sum(points)) %>%
+  arrange(desc(total_points))
+
+```
+
+```{r pit stop}
+pit_stops %>%
+  filter(raceId >= 841, raceId<= 858) %>%
+  group_by(driverId) %>%
+  summarise(avg_stop = mean(milliseconds)) 
+```
+
+```
+
