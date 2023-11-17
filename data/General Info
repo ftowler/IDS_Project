@@ -2,7 +2,26 @@
 2009-2013 V8 era, cars have minimal hybrid systems
 2014-2016 v6 hybrid era, small cars
 2017-2021 v6 hybrid large cars
+<<<<<<< HEAD
 2011-2022 RACE ID 841-1074
 2010 RACE ID 337-355s
 2009 RACE ID 1-17
 qd = table with constructor and driver names as well as data
+=======
+2022 v6 ground effect cars
+
+2009 RaceID:1-17
+2010 RaceID:337-355
+2011 RaceID:841-859
+2012 RaceID:860-879
+2013 RaceID:880-899
+2014 RaceID:900-918
+2015 RaceID:926-945
+2016 RaceID:948-968
+2017 RaceID:969-988
+2018 RaceID:989-1009
+2019 RaceID:1010-1030
+2020 RaceID:1031-1047
+2021 RaceID:1052-1073
+2022 RaceID:1074-1096
+>>>>>>> refs/remotes/origin/main
