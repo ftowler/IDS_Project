@@ -74,8 +74,7 @@ new_drivers1<-subset(new_drivers,select=-c(number))
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
 driver_data <- merge(qualifying, new_drivers1, by = "driverId")
 constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
-qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")
-qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
  qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
@@ -96,17 +95,95 @@ constructor_results %>%
 
 ```
 
-```{r constructor}
+```{r constructorPointsPerSeasonTable}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
   filter(raceId>=1,raceId<=17)%>%
   group_by(name)%>%
   summarise(sum(points))
-season09<-constructorPointsPerSeason%>%
-  filter(raceId>=1,raceId<=17)%>%
+season10<-constructorPointsPerSeason%>%
+  filter(raceId>=337,raceId<=355)%>%
   group_by(name)%>%
   summarise(sum(points))
-
+season11<-constructorPointsPerSeason%>%
+  filter(raceId>=841,raceId<=859)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season12<-constructorPointsPerSeason%>%
+  filter(raceId>=860,raceId<=879)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season13<-constructorPointsPerSeason%>%
+  filter(raceId>=880,raceId<=899)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season14<-constructorPointsPerSeason%>%
+  filter(raceId>=900,raceId<=918)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season15<-constructorPointsPerSeason%>%
+  filter(raceId>=926,raceId<=945)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season16<-constructorPointsPerSeason%>%
+  filter(raceId>=948,raceId<=968)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season17<-constructorPointsPerSeason%>%
+  filter(raceId>=969,raceId<=988)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season18<-constructorPointsPerSeason%>%
+  filter(raceId>=989,raceId<=1009)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season19<-constructorPointsPerSeason%>%
+  filter(raceId>=1010,raceId<=1030)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season20<-constructorPointsPerSeason%>%
+  filter(raceId>=1031,raceId<=1047)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season21<-constructorPointsPerSeason%>%
+  filter(raceId>=1052,raceId<=1073)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season22<-constructorPointsPerSeason%>%
+  filter(raceId>=1074,raceId<=1096)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+constructorPointsPerSeason<-full_join(season09,season10,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season11,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season12,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season13,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season14,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season15,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season16,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season17,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season18,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season19,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season20,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season21,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season22,by='name')
+constructorPointsPerSeason <- constructorPointsPerSeason %>%
+  rename(
+    Constructor_Name = name,
+    `2009` = `sum(points).x`,
+    `2010` = `sum(points).y`,
+    `2011` = `sum(points).x.x`,
+    `2012` = `sum(points).y.y`,
+    `2013` = `sum(points).x.x.x`,
+    `2014` = `sum(points).y.y.y`,
+    `2015` = `sum(points).x.x.x.x`,
+    `2016` = `sum(points).y.y.y.y`,
+    `2017` = `sum(points).x.x.x.x.x`,
+    `2018` = `sum(points).y.y.y.y.y`,
+    `2019` = `sum(points).x.x.x.x.x.x`,
+    `2020` = `sum(points).y.y.y.y.y.y`,    
+    `2021` = `sum(points).x.x.x.x.x.x.x`,
+    `2022` = `sum(points).y.y.y.y.y.y.y`
+  )
 ```
 
 ```{r driver}
