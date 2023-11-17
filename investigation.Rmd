@@ -74,7 +74,8 @@ new_drivers1<-subset(new_drivers,select=-c(number))
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
 driver_data <- merge(qualifying, new_drivers1, by = "driverId")
 constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
-qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
 qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
  qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
