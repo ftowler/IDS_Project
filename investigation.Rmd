@@ -248,5 +248,12 @@ qd <- qd %>%
   filter(!(raceId >= 946 & raceId <= 947))
 qd <- qd %>% 
   filter(!(raceId >= 919 & raceId <= 925))
+qd <- qd %>% 
+  filter(q3 != "\\N")
+avg_quali <- qd_filter %>% 
+  select(q3, raceId)
+average_q3 <- avg_quali %>% 
+  filter(raceId >= 1 & raceId <= 17)
+
 ```
 
