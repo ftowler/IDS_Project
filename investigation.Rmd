@@ -235,5 +235,18 @@ pit_stops %>%
   summarise(avg_stop = mean(milliseconds)) 
 ```
 
+``````{r qd}
+qd <- qd %>% 
+  filter(!(raceId >= 18 & raceId <= 336))
+qd <- qd %>% 
+  filter(!(raceId >= 356 & raceId <= 840))
+qd <- qd %>% 
+  filter(!(raceId >= 1097 & raceId <= 1110))
+qd <- qd %>% 
+  filter(!(raceId >= 1048 & raceId <= 1051))
+qd <- qd %>% 
+  filter(!(raceId >= 946 & raceId <= 947))
+qd <- qd %>% 
+  filter(!(raceId >= 919 & raceId <= 925))
 ```
 
