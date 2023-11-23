@@ -44,27 +44,31 @@ status <- read_csv('data/status.csv')
 
 
 ``` {r Sum of Races Time Per Race}
-#find average split time per season
-#account for pit stop times
-#account for weather
-
-laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
-maxdriverID = max(results$driverId)
-maxraceID = max(results$raceId)
-for (x in maxdriverID ){
-  averagesplittime = 0
-  count = 0
-  for (y in  maxraceID ){
-  
-    results %>%
-    filter(raceId == x,na.rm = TRUE) %>%
-    filter(driverId == y, na.rm =TRUE) %>% view()
-    if 
-    averagesplittime = averagesplittime + as.integer(results$milliseconds)
-    count = count + 1
-  }
-  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
-  }
+results %>%
+ # group_by(raceId) %>%
+  arrange(raceId,positionOrder)%>%
+  mutate(
+  split_time =  if_else(.$positionOrder == 1 ,0,
+                        if_else(.$positionOrder == "//N" ,0, as.integer(.$milliseconds) - lag(as.integer(.$milliseconds)))),
+  season = case_when(
+    .$raceId >= 1 & .$raceId <= 17 ~ "2009",
+    .$raceId >= 337 & .$raceId <= 355 ~ "2010",
+    .$raceId >= 841 & .$raceId <= 859 ~ "2011",
+    .$raceId >= 860 & .$raceId <= 879 ~ "2012",
+    .$raceId >= 880 & .$raceId <= 899 ~ "2013",
+    .$raceId >= 900 & .$raceId <= 918 ~ "2014",
+    .$raceId >= 926 & .$raceId <= 945 ~ "2015",
+    .$raceId >= 948 & .$raceId <= 968 ~ "2016",
+    .$raceId >= 969 & .$raceId <= 988 ~ "2017",
+    .$raceId >= 989  & .$raceId <= 1009 ~ "2018",
+    .$raceId >= 1010 & .$raceId <= 1030 ~ "2019",
+    .$raceId >= 1031  & .$raceId <= 1047 ~ "2020",
+    .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
+    .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
+  )
+  )%>% group_by(.$season) %>% view() %>%
+  ggplot() +
+  geom_point(mapping = aes(x = season, y = mean(split_time, na.rm = TRUE)))
 
 ```
 
