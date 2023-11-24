@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "2022 F1 Regulations Improve Racing as Intended"
+subtitle: "based on past racing data"
+author: "by Team-Name: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
