@@ -44,27 +44,31 @@ status <- read_csv('data/status.csv')
 
 
 ``` {r Sum of Races Time Per Race}
-#find average split time per season
-#account for pit stop times
-#account for weather
-
-laptimeAverageTable = tibble(driverId = c(1:858), averageSplitTime = 0)
-maxdriverID = max(results$driverId)
-maxraceID = max(results$raceId)
-for (x in maxdriverID ){
-  averagesplittime = 0
-  count = 0
-  for (y in  maxraceID ){
-  
-    results %>%
-    filter(raceId == x,na.rm = TRUE) %>%
-    filter(driverId == y, na.rm =TRUE) %>% view()
-    if 
-    averagesplittime = averagesplittime + as.integer(results$milliseconds)
-    count = count + 1
-  }
-  laptimeAverageTable.averageSplitTime[x] = averagesplittime / count
-  }
+results %>%
+ # group_by(raceId) %>%
+  arrange(raceId,positionOrder)%>%
+  mutate(
+  split_time =  if_else(.$positionOrder == 1 ,0,
+                        if_else(.$positionOrder == "//N" ,0, as.integer(.$milliseconds) - lag(as.integer(.$milliseconds)))),
+  season = case_when(
+    .$raceId >= 1 & .$raceId <= 17 ~ "2009",
+    .$raceId >= 337 & .$raceId <= 355 ~ "2010",
+    .$raceId >= 841 & .$raceId <= 859 ~ "2011",
+    .$raceId >= 860 & .$raceId <= 879 ~ "2012",
+    .$raceId >= 880 & .$raceId <= 899 ~ "2013",
+    .$raceId >= 900 & .$raceId <= 918 ~ "2014",
+    .$raceId >= 926 & .$raceId <= 945 ~ "2015",
+    .$raceId >= 948 & .$raceId <= 968 ~ "2016",
+    .$raceId >= 969 & .$raceId <= 988 ~ "2017",
+    .$raceId >= 989  & .$raceId <= 1009 ~ "2018",
+    .$raceId >= 1010 & .$raceId <= 1030 ~ "2019",
+    .$raceId >= 1031  & .$raceId <= 1047 ~ "2020",
+    .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
+    .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
+  )
+  )%>% group_by(.$season) %>% view() %>%
+  ggplot() +
+  geom_point(mapping = aes(x = season, y = mean(split_time, na.rm = TRUE)))
 
 ```
 
@@ -223,14 +227,123 @@ constructorPointsPerSeason %>%
 
 
 
-```{r driver}
-results %>%
-  filter(raceId >= 1, raceId <= 18) %>%
+```{r driver championship}
+driverPointsPerSeason<-left_join(drivers,results,by='driverId')
+Season09 <- driverPointsPerSeason %>% #season09
+  filter(raceId >= 1, raceId <= 17) %>%
   group_by(driverId) %>%
-  summarise(total_points = sum(points)) %>%
-  arrange(desc(total_points))
+  summarise(sum(points))
+Season10 <- driverPointsPerSeason %>% #season10
+  filter(raceId >= 337, raceId <= 355) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season11 <- driverPointsPerSeason %>% #season11
+  filter(raceId >= 841, raceId <= 859) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season12 <- driverPointsPerSeason %>% #season12
+  filter(raceId >= 860, raceId <= 879) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season13 <- driverPointsPerSeason %>% #season13
+  filter(raceId >= 880, raceId <= 899) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season14 <- driverPointsPerSeason %>% #season14
+  filter(raceId >= 900, raceId <= 918) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season15 <- driverPointsPerSeason %>% #season15
+  filter(raceId >= 926, raceId <= 945) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season16 <- driverPointsPerSeason %>% #season16
+  filter(raceId >= 948, raceId <= 968) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season17 <- driverPointsPerSeason %>% #season17
+  filter(raceId >= 969, raceId <= 988) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season18 <- driverPointsPerSeason %>% #season18
+  filter(raceId >= 989, raceId <= 1009) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season19 <- driverPointsPerSeason %>% #season19
+  filter(raceId >= 1010, raceId <= 1030) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season20 <- driverPointsPerSeason %>% #season20
+  filter(raceId >= 1031, raceId <= 1047) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season21 <- driverPointsPerSeason %>% #season21
+  filter(raceId >= 1052, raceId <= 1073) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season22 <- driverPointsPerSeason %>% #season22
+  filter(raceId >= 1074, raceId <= 1096) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+driverPointsPerSeason<-full_join(Season09,Season10,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season11,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season12,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season13,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season14,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season15,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season16,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season17,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season18,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season19,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season20,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season21,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season22,by='driverId')
+driverPointsPerSeason <-driverPointsPerSeason %>%
+  rename(
+    Driver_ID = driverId,
+    `2009` = `sum(points).x`,
+    `2010` = `sum(points).y`,
+    `2011` = `sum(points).x.x`,
+    `2012` = `sum(points).y.y`,
+    `2013` = `sum(points).x.x.x`,
+    `2014` = `sum(points).y.y.y`,
+    `2015` = `sum(points).x.x.x.x`,
+    `2016` = `sum(points).y.y.y.y`,
+    `2017` = `sum(points).x.x.x.x.x`,
+    `2018` = `sum(points).y.y.y.y.y`,
+    `2019` = `sum(points).x.x.x.x.x.x`,
+    `2020` = `sum(points).y.y.y.y.y.y`,    
+    `2021` = `sum(points).x.x.x.x.x.x.x`,
+    `2022` = `sum(points).y.y.y.y.y.y.y`
+  )
 
 ```
+```{r Standard diviation}
+temp<-driverPointsPerSeason%>%
+  summarise(
+    '2009'=sd(`2009`,na.rm=TRUE),
+    '2010'=sd(`2010`,na.rm=TRUE),
+    '2011'=sd(`2011`,na.rm=TRUE),
+    '2012'=sd(`2012`,na.rm=TRUE),
+    '2013'=sd(`2013`,na.rm=TRUE),
+    '2014'=sd(`2014`,na.rm=TRUE),
+    '2015'=sd(`2015`,na.rm=TRUE),
+    '2016'=sd(`2016`,na.rm=TRUE),
+    '2017'=sd(`2017`,na.rm=TRUE),
+    '2018'=sd(`2018`,na.rm=TRUE),
+    '2019'=sd(`2019`,na.rm=TRUE),
+    '2020'=sd(`2020`,na.rm=TRUE),
+    '2021'=sd(`2021`,na.rm=TRUE),
+    '2022'=sd(`2022`,na.rm=TRUE)
+)%>%
+  gather(key = "Season", value = "StandardDeviation")
+ggplot(data=temp,aes(x = Season, y = StandardDeviation)) +
+  geom_point() +
+  geom_smooth(method=lm,se = FALSE, col = "red")+
+  labs(title = "Driver Championship Standard Deviation of points for Each Season", x = "Season", y = "Standard Deviation",subtitle = '2009-2022')
+
+```
+
 
 ```{r pit stop}
 pit_stops %>%
@@ -238,6 +351,26 @@ pit_stops %>%
   group_by(driverId) %>%
   summarise(avg_stop = mean(milliseconds)) 
 ```
+
+``````{r qd}
+qd <- qd %>% 
+  filter(!(raceId >= 18 & raceId <= 336))
+qd <- qd %>% 
+  filter(!(raceId >= 356 & raceId <= 840))
+qd <- qd %>% 
+  filter(!(raceId >= 1097 & raceId <= 1110))
+qd <- qd %>% 
+  filter(!(raceId >= 1048 & raceId <= 1051))
+qd <- qd %>% 
+  filter(!(raceId >= 946 & raceId <= 947))
+qd <- qd %>% 
+  filter(!(raceId >= 919 & raceId <= 925))
+qd <- qd %>% 
+  filter(q3 != "\\N")
+avg_quali <- qd_filter %>% 
+  select(q3, raceId)
+average_q3 <- avg_quali %>% 
+  filter(raceId >= 1 & raceId <= 17)
 
 ```
 
