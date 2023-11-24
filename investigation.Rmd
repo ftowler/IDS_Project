@@ -351,26 +351,15 @@ pit_stops %>%
   group_by(driverId) %>%
   summarise(avg_stop = mean(milliseconds)) 
 ```
-
-``````{r qd}
-
+```{r qd}
 
 
+
 qd <- qd %>% 
-  filter(!(raceId >= 18 & raceId <= 336))
-qd <- qd %>% 
-  filter(!(raceId >= 356 & raceId <= 840))
-qd <- qd %>% 
-  filter(!(raceId >= 1097 & raceId <= 1110))
-qd <- qd %>% 
-  filter(!(raceId >= 1048 & raceId <= 1051))
-qd <- qd %>% 
-  filter(!(raceId >= 946 & raceId <= 947))
-qd <- qd %>% 
-  filter(!(raceId >= 919 & raceId <= 925))
+  filter(!(raceId >= 18 & raceId <= 336),!(raceId >= 356 & raceId <= 840),!(raceId >= 1097 & raceId <= 1110),!(raceId >= 1048 & raceId <= 1051),!(raceId >= 946 & raceId <= 947),!(raceId >= 919 & raceId <= 925))
 qd <- qd %>% 
   filter(q3 != "\\N")
-avg_quali <- qd_filter %>% 
+avg_quali <- qd %>% 
   select(q3, raceId)
 average_q3 <- avg_quali %>% 
   filter(raceId >= 1 & raceId <= 17)
