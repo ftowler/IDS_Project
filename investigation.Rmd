@@ -353,6 +353,9 @@ pit_stops %>%
 ```
 
 ``````{r qd}
+
+
+
 qd <- qd %>% 
   filter(!(raceId >= 18 & raceId <= 336))
 qd <- qd %>% 
