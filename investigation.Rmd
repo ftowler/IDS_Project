@@ -186,33 +186,37 @@ constructorPointsPerSeason <- constructorPointsPerSeason %>%
     `2022` = `sum(points).y.y.y.y.y.y.y`
   )
 ```
+
 ```{r makingConstructorGraph}
-
-
-
-
-temp<-constructorPointsPerSeason%>%
+constructorPointsPerSeason %>%
   summarise(
-    '2009'=sd(`2009`,na.rm=TRUE),
-    '2010'=sd(`2010`,na.rm=TRUE),
-    '2011'=sd(`2011`,na.rm=TRUE),
-    '2012'=sd(`2012`,na.rm=TRUE),
-    '2013'=sd(`2013`,na.rm=TRUE),
-    '2014'=sd(`2014`,na.rm=TRUE),
-    '2015'=sd(`2015`,na.rm=TRUE),
-    '2016'=sd(`2016`,na.rm=TRUE),
-    '2017'=sd(`2017`,na.rm=TRUE),
-    '2018'=sd(`2018`,na.rm=TRUE),
-    '2019'=sd(`2019`,na.rm=TRUE),
-    '2020'=sd(`2020`,na.rm=TRUE),
-    '2021'=sd(`2021`,na.rm=TRUE),
-    '2022'=sd(`2022`,na.rm=TRUE)
-)%>%
-  gather(key = "Season", value = "StandardDeviation")
-ggplot(data=temp,aes(x = Season, y = StandardDeviation)) +
+    sd_2009 = sd(`2009`, na.rm = TRUE) / 17,
+    sd_2010 = sd(`2010`, na.rm = TRUE) / 19,
+    sd_2011 = sd(`2011`, na.rm = TRUE) / 19,
+    sd_2012 = sd(`2012`, na.rm = TRUE) / 20,
+    sd_2013 = sd(`2013`, na.rm = TRUE) / 19,
+    sd_2014 = sd(`2014`, na.rm = TRUE) / 19,
+    sd_2015 = sd(`2015`, na.rm = TRUE) / 19,
+    sd_2016 = sd(`2016`, na.rm = TRUE) / 21,
+    sd_2017 = sd(`2017`, na.rm = TRUE) / 20,
+    sd_2018 = sd(`2018`, na.rm = TRUE) / 21,
+    sd_2019 = sd(`2019`, na.rm = TRUE) / 21,
+    sd_2020 = sd(`2020`, na.rm = TRUE) / 17,
+    sd_2021 = sd(`2021`, na.rm = TRUE) / 22,
+    sd_2022 = sd(`2022`, na.rm = TRUE) / 22
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
   geom_point() +
-  geom_smooth(method=lm,se = FALSE, col = "blue")+
-  labs(title = "Standard Deviation of points for Each Season", x = "Season", y = "Standard Deviation",subtitle = '2009-2022')
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of points for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+
 
 
 ```
