@@ -398,7 +398,9 @@ splitPerRace <- function(x) {
   return(mtotal)
 }
 
-
+x<-avg_quali%>%
+  group_by(raceId)%>%
+  mutate(split=splitPerRace(raceId))
 
 ```
 
