@@ -345,24 +345,53 @@ ggplot(data=temp,aes(x = Season, y = StandardDeviation)) +
 ```
 
 
-```{r pit stop}
-pit_stops %>%
-  filter(raceId >= 841, raceId<= 858) %>%
-  group_by(driverId) %>%
-  summarise(avg_stop = mean(milliseconds)) 
-```
 ```{r qd}
-
 
 
 qd <- qd %>% 
   filter(!(raceId >= 18 & raceId <= 336),!(raceId >= 356 & raceId <= 840),!(raceId >= 1097 & raceId <= 1110),!(raceId >= 1048 & raceId <= 1051),!(raceId >= 946 & raceId <= 947),!(raceId >= 919 & raceId <= 925))
 qd <- qd %>% 
   filter(q3 != "\\N")
-avg_quali <- qd %>% 
-  select(q3, raceId)
-average_q3 <- avg_quali %>% 
-  filter(raceId >= 1 & raceId <= 17)
+avg_quali <- qd %>%
+  select(q3, raceId) %>%
+  filter(
+    raceId %in% 1:17 |
+    raceId %in% 337:355 |
+    raceId %in% 841:859 |
+    raceId %in% 860:879 |
+    raceId %in% 880:899 |
+    raceId %in% 900:918 |
+    raceId %in% 926:945 |
+    raceId %in% 948:968 |
+    raceId %in% 969:988 |
+    raceId %in% 989:1009 |
+    raceId %in% 1010:1030 |
+    raceId %in% 1031:1047 |
+    raceId %in% 1052:1073 |
+    raceId %in% 1074:1096
+  )
+timeToSec<- function(x){
+  secondsQd<- as.numeric(sub(".*:(\\d+\\.\\d+)", "\\1", x))+60
+  return(secondsQd)}
+avg_quali$q3<-timeToSec(avg_quali$q3)
+
+splitPerRace <- function(x) {
+  p1time <- 10000
+  total <- 0
+  filtered_data <- avg_quali %>% filter(raceId == x)
+  for (y in filtered_data$q3) {
+    for (z in filtered_data$q3) {
+      if (z < p1time) {
+        p1time <- z
+      }
+      total <- total + (p1time - y)
+    }
+  }
+  mtotal <- mean(total)
+  return(mtotal)
+}
+
+
 
 ```
 
