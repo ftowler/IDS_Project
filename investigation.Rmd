@@ -45,7 +45,6 @@ status <- read_csv('data/status.csv')
 
 ``` {r Sum of Races Time Per Race}
 results %>%
- # group_by(raceId) %>%
   arrange(raceId,positionOrder)%>%
   mutate(
   split_time =  if_else(.$positionOrder == 1 ,0,
@@ -66,9 +65,10 @@ results %>%
     .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
     .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
   )
-  )%>% group_by(.$season) %>% view() %>%
+  )%>% group_by(season)  %>% drop_na(season) %>% summarise(y =mean(split_time, na.rm = TRUE)) %>%
   ggplot() +
-  geom_point(mapping = aes(x = season, y = mean(split_time, na.rm = TRUE)))
+  geom_point(mapping = aes(x = season, y = y))
+    
 
 ```
 
