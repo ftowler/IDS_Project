@@ -40,6 +40,20 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 ```{r load-data, include=FALSE}
 # Load your data here
+circuits <- read_csv("data/circuits.csv")
+constructor_results <- read_csv('data/constructor_results.csv')
+constructor_standings <- read_csv('data/constructor_standings.csv')
+constructors <- read_csv('data/constructors.csv')
+driver_standings <- read_csv('data/driver_standings.csv')
+drivers <- read_csv('data/drivers.csv')
+lap_times <- read_csv('data/lap_times.csv')
+pit_stops <- read_csv('data/pit_stops.csv')
+qualifying <- read_csv('data/qualifying.csv')
+races <- read_csv('data/races.csv')
+results <- read_csv('data/results.csv')
+seasons <- read_csv('data/seasons.csv')
+sprint_results <- read_csv('data/sprint_results.csv')
+status <- read_csv('data/status.csv')
 
 ```
 
@@ -155,6 +169,137 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
   theme_minimal()
 ```
 ]
+---
+## Constructor Points Per Season
+
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r Constructor point, echo=FALSE}
+constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
+season09<-constructorPointsPerSeason%>%
+  filter(raceId>=1,raceId<=17)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season10<-constructorPointsPerSeason%>%
+  filter(raceId>=337,raceId<=355)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season11<-constructorPointsPerSeason%>%
+  filter(raceId>=841,raceId<=859)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season12<-constructorPointsPerSeason%>%
+  filter(raceId>=860,raceId<=879)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season13<-constructorPointsPerSeason%>%
+  filter(raceId>=880,raceId<=899)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season14<-constructorPointsPerSeason%>%
+  filter(raceId>=900,raceId<=918)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season15<-constructorPointsPerSeason%>%
+  filter(raceId>=926,raceId<=945)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season16<-constructorPointsPerSeason%>%
+  filter(raceId>=948,raceId<=968)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season17<-constructorPointsPerSeason%>%
+  filter(raceId>=969,raceId<=988)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season18<-constructorPointsPerSeason%>%
+  filter(raceId>=989,raceId<=1009)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season19<-constructorPointsPerSeason%>%
+  filter(raceId>=1010,raceId<=1030)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season20<-constructorPointsPerSeason%>%
+  filter(raceId>=1031,raceId<=1047)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season21<-constructorPointsPerSeason%>%
+  filter(raceId>=1052,raceId<=1073)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season22<-constructorPointsPerSeason%>%
+  filter(raceId>=1074,raceId<=1096)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+constructorPointsPerSeason<-full_join(season09,season10,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season11,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season12,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season13,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season14,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season15,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season16,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season17,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season18,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season19,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season20,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season21,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season22,by='name')
+constructorPointsPerSeason <- constructorPointsPerSeason %>%
+  rename(
+    Constructor_Name = name,
+    `2009` = `sum(points).x`,
+    `2010` = `sum(points).y`,
+    `2011` = `sum(points).x.x`,
+    `2012` = `sum(points).y.y`,
+    `2013` = `sum(points).x.x.x`,
+    `2014` = `sum(points).y.y.y`,
+    `2015` = `sum(points).x.x.x.x`,
+    `2016` = `sum(points).y.y.y.y`,
+    `2017` = `sum(points).x.x.x.x.x`,
+    `2018` = `sum(points).y.y.y.y.y`,
+    `2019` = `sum(points).x.x.x.x.x.x`,
+    `2020` = `sum(points).y.y.y.y.y.y`,    
+    `2021` = `sum(points).x.x.x.x.x.x.x`,
+    `2022` = `sum(points).y.y.y.y.y.y.y`
+  )
+
+constructorPointsPerSeason %>%
+  summarise(
+    sd_2009 = sd((`2009`)/17, na.rm = TRUE),
+    sd_2010 = sd((`2010`) / 19, na.rm = TRUE),
+    sd_2011 = sd((`2011`)/19, na.rm = TRUE),
+    sd_2012 = sd((`2012`) / 20, na.rm = TRUE),
+    sd_2013 = sd((`2013`) / 19, na.rm = TRUE),
+    sd_2014 = sd((`2014`) / 19, na.rm = TRUE),
+    sd_2015 = sd((`2015`) / 19, na.rm = TRUE),
+    sd_2016 = sd((`2016`) / 21, na.rm = TRUE),
+    sd_2017 = sd((`2017`) / 20, na.rm = TRUE),
+    sd_2018 = sd((`2018`) / 21, na.rm = TRUE),
+    sd_2019 = sd((`2019`) / 21, na.rm = TRUE),
+    sd_2020 = sd((`2020`) / 17, na.rm = TRUE),
+    sd_2021 = sd((`2021`) / 22, na.rm = TRUE),
+    sd_2022 = sd((`2022`) / 22, na.rm = TRUE)
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
+  geom_point() +
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of Points per Race for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+```
+]
+
+
+
 
 ---
 
