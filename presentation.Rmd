@@ -176,7 +176,7 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 - Standard Deviation for each season
 ]
 .pull-right[
-```{r Constructor point, echo=FALSE}
+```{r Constructor point, echo=FALSE, warning=FALSE}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
   filter(raceId>=1,raceId<=17)%>%
