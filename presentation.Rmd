@@ -173,8 +173,7 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 ## Constructor Points Per Season
 
 .pull-left[
-- Some text
-- goes here
+- Standard Deviation for each season
 ]
 .pull-right[
 ```{r Constructor point, echo=FALSE}
