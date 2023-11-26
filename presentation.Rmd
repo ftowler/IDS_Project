@@ -152,6 +152,7 @@ ggplot(data = iris_modified, mapping = aes(x = Sepal.Width, y = Sepal.Length, co
   theme_minimal() # theme options: https://ggplot2.tidyverse.org/reference/ggtheme.html
 ```
 
+
 ---
 
 ## Plot and text
@@ -172,11 +173,8 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 ---
 ## Constructor Points Per Season
 
-.pull-left[
-- Standard Deviation for each season
-]
-.pull-right[
-```{r Constructor point, echo=FALSE, warning=FALSE}
+
+```{r Constructor point, echo=FALSE, message=FALSE, warning=FALSE}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
   filter(raceId>=1,raceId<=17)%>%
@@ -295,7 +293,7 @@ constructorPointsPerSeason %>%
     subtitle = '2009-2022'
   )
 ```
-]
+
 
 
 
