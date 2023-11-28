@@ -353,7 +353,13 @@ driverPointsPerSeason%>%
 
 
 ```{r quali split table}
-
+timeToSec <- function(time_str) {
+  time_parts <- strsplit(time_str, ":")[[1]]
+  minutes <- as.numeric(time_parts[1])
+  seconds <- as.numeric(time_parts[2])
+  total_seconds <- minutes * 60 + seconds
+  return(total_seconds)
+}
 avg_quali <- qd %>%
   select(q3, raceId) %>%
   filter(
@@ -371,56 +377,53 @@ avg_quali <- qd %>%
     raceId %in% 1031:1047 |
     raceId %in% 1052:1073 |
     raceId %in% 1074:1096
-  )
-timeToSec <- function(time_str) {
-  time_parts <- strsplit(time_str, ":")[[1]]
-  minutes <- as.numeric(time_parts[1])
-  seconds <- as.numeric(time_parts[2])
-  total_seconds <- minutes * 60 + seconds
-  return(total_seconds)
-}
-m09 <- sd_avg_quali %>%
+  ) %>%
+  mutate(q3 = sapply(q3, timeToSec)) %>%
+  group_by(raceId) %>%
+  summarise(q3_sd = sd(q3,na.rm=TRUE))
+
+m09 <- avg_quali %>%
   filter(raceId %in% 1:17) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m10 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m10 <- avg_quali %>%
   filter(raceId %in% 337:355) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m11 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m11 <- avg_quali %>%
   filter(raceId %in% 841:859) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m12 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m12 <- avg_quali %>%
   filter(raceId %in% 860:879) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m13 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m13 <- avg_quali %>%
   filter(raceId %in% 880:899) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m14 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m14 <- avg_quali %>%
   filter(raceId %in% 900:918) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m15 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m15 <- avg_quali %>%
   filter(raceId %in% 926:945) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m16 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m16 <- avg_quali %>%
   filter(raceId %in% 948:968) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m17 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m17 <- avg_quali %>%
   filter(raceId %in% 968:988) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m18 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m18 <- avg_quali %>%
   filter(raceId %in% 989:1009) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m19 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m19 <- avg_quali %>%
   filter(raceId %in% 1010:1030) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m20 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m20 <- avg_quali %>%
   filter(raceId %in% 1031:1047) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m21 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m21 <- avg_quali %>%
   filter(raceId %in% 1052:1073) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
-m22 <- sd_avg_quali %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m22 <- avg_quali %>%
   filter(raceId %in% 1074:1096) %>%
-  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
 result_df <- bind_rows(
   m09 %>% mutate(Year = 2009),
   m10 %>% mutate(Year = 2010),
