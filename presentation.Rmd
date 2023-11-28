@@ -173,9 +173,9 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 
 
 ---
-## Constructor Points Per Season
+## Constructor Points and Driver Championship per season
 
-
+.pull-left[
 ```{r Constructor point, echo=FALSE, message=FALSE, warning=FALSE}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
@@ -295,14 +295,13 @@ constructorPointsPerSeason %>%
     subtitle = '2009-2022'
   )
 ```
+]
 
 
 
 
 
----
-
-# Driver Championship
+.pull-right[
 
 ```{r Standard diviation of Drivers, echo=FALSE, message=FALSE}
 driverPointsPerSeason<-left_join(drivers,results,by='driverId')
@@ -423,7 +422,7 @@ driverPointsPerSeason%>%
     subtitle = '2009-2022'
   )
 ```
-
+]
 
 
 ---
