@@ -354,11 +354,6 @@ driverPointsPerSeason%>%
 
 ```{r quali split table}
 
-
-qd <- qd %>% 
-  filter(!(raceId >= 18 & raceId <= 336),!(raceId >= 356 & raceId <= 840),!(raceId >= 1097 & raceId <= 1110),!(raceId >= 1048 & raceId <= 1051),!(raceId >= 946 & raceId <= 947),!(raceId >= 919 & raceId <= 925))
-qd <- qd %>% 
-  filter(q3 != "\\N")
 avg_quali <- qd %>%
   select(q3, raceId) %>%
   filter(
@@ -377,72 +372,86 @@ avg_quali <- qd %>%
     raceId %in% 1052:1073 |
     raceId %in% 1074:1096
   )
-timeToSec<- function(x){
-  secondsQd<- as.numeric(sub(".*:(\\d+\\.\\d+)", "\\1", x))+60
-  return(secondsQd)}
-avg_quali$q3<-timeToSec(avg_quali$q3)
-
-splitPerRace <- function(x) {
-  p1time <- 10000
-  total <- 0
-  filtered_data <- avg_quali %>% filter(raceId == x)
-  for (y in filtered_data$q3) {
-    for (z in filtered_data$q3) {
-      if (z < p1time) {
-        p1time <- z
-      }
-      total <- total + (p1time - y)
-    }
-  }
-  mtotal <- mean(total)
-  return(mtotal)
+timeToSec <- function(time_str) {
+  time_parts <- strsplit(time_str, ":")[[1]]
+  minutes <- as.numeric(time_parts[1])
+  seconds <- as.numeric(time_parts[2])
+  total_seconds <- minutes * 60 + seconds
+  return(total_seconds)
 }
-
-avg_qualisplit <- data.frame(
-  raceid = 1:1096,
-  splitTime = sapply(1:1096, function(i) splitPerRace(i))
+m09 <- sd_avg_quali %>%
+  filter(raceId %in% 1:17) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m10 <- sd_avg_quali %>%
+  filter(raceId %in% 337:355) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m11 <- sd_avg_quali %>%
+  filter(raceId %in% 841:859) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m12 <- sd_avg_quali %>%
+  filter(raceId %in% 860:879) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m13 <- sd_avg_quali %>%
+  filter(raceId %in% 880:899) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m14 <- sd_avg_quali %>%
+  filter(raceId %in% 900:918) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m15 <- sd_avg_quali %>%
+  filter(raceId %in% 926:945) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m16 <- sd_avg_quali %>%
+  filter(raceId %in% 948:968) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m17 <- sd_avg_quali %>%
+  filter(raceId %in% 968:988) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m18 <- sd_avg_quali %>%
+  filter(raceId %in% 989:1009) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m19 <- sd_avg_quali %>%
+  filter(raceId %in% 1010:1030) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m20 <- sd_avg_quali %>%
+  filter(raceId %in% 1031:1047) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m21 <- sd_avg_quali %>%
+  filter(raceId %in% 1052:1073) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+m22 <- sd_avg_quali %>%
+  filter(raceId %in% 1074:1096) %>%
+  summarise(mean_sd_q3 = mean(`sd(q3)`, na.rm = TRUE))
+result_df <- bind_rows(
+  m09 %>% mutate(Year = 2009),
+  m10 %>% mutate(Year = 2010),
+  m11 %>% mutate(Year = 2011),
+  m12 %>% mutate(Year = 2012),
+  m13 %>% mutate(Year = 2013),
+  m14 %>% mutate(Year = 2014),
+  m15 %>% mutate(Year = 2015),
+  m16 %>% mutate(Year = 2016),
+  m17 %>% mutate(Year = 2017),
+  m18 %>% mutate(Year = 2018),
+  m19 %>% mutate(Year = 2019),
+  m20 %>% mutate(Year = 2020),
+  m21 %>% mutate(Year = 2021),
+  m22 %>% mutate(Year = 2022)
 )
-avg_qualisplit <- avg_qualisplit %>%
-  filter(splitTime != 0)
-raceid_ranges <- list(
-  c(1, 17, 2009),
-  c(337, 355, 2010),
-  c(841, 859, 2011),
-  c(860, 879, 2012),
-  c(880, 899, 2013),
-  c(900, 918, 2014),
-  c(926, 945, 2015),
-  c(948, 968, 2016),
-  c(969, 988, 2017),
-  c(989, 1009, 2018),
-  c(1010, 1030, 2019),
-  c(1031, 1047, 2020),
-  c(1052, 1073, 2021),
-  c(1074, 1096, 2022)
-)
 
-results_list <- list()
+print(result_df)
 
-for (range in raceid_ranges) {
-  result <- avg_qualisplit %>%
-    filter(raceid %in% range[1]:range[2]) %>%
-    summarise(year = range[3], mean_splitTime = mean(splitTime))
-  
-  results_list[[as.character(range[3])]] <- result
-}
-
-# Combine the results into a single data frame
-splitperseason <- bind_rows(results_list, .id = "year")
 ```
 ```{r quali split graph}
-splitperseason%>%
-    ggplot(aes(x = as.numeric(year), y = mean_splitTime*-1)) +
+ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
   geom_point() +
-  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  geom_smooth(method = 'lm', se = FALSE) +
   labs(
-    title = "Average split time of qualifying per season",
-    x = "Season",
-    y = "Average Split Time",
-    subtitle = '2009-2022')
+    title = "Average qualifying split time per season",
+    x = "Year",
+    y = "Average qualifying split time in seconds",
+    subtitle = '2009 - 2022'
+  )
+
+
 ```
 
