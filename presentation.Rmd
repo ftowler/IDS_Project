@@ -18,12 +18,8 @@ output:
 ---
 
 ```{r install-package, include = FALSE, eval = FALSE}
-# Copy and paste the following code into your console to download and install
-# the `xaringan` package that contains all of the code which allows you 
-# to create presentation slides in Rmarkdown
 install.packages('xaringan')
 ```
-
 
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
@@ -73,16 +69,19 @@ class: center, middle
 
 # Whether simply car bodies improve racing overall or not
 
-```{r}
+
+
+
+---
+```{r include=FALSE}
+
+#Background image
 style_xaringan(
-  slide_background_image = 
+  background_image = "img/slide2.jpg"
 )
 ```
 
 
----
-
-class: inverse, center, middle
 
 # Introduction
 
