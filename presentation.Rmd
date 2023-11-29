@@ -73,12 +73,15 @@ class: center, middle
 
 
 ---
-```{r include=FALSE}
 
-#Background image
-style_xaringan(
-  background_image = "img/slide2.jpg"
-)
+class: center, inverse
+background-image: url("img/slide2.jpg")
+background-size: cover
+
+```{r include=FALSE, }
+
+
+
 ```
 
 
