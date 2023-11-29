@@ -32,6 +32,8 @@ library(tidyverse)
 ## Research Question
 
 Describe your research question here. Include why this question might be of interest. 
+Our research project was to determine whether Formula 1's 2022 season rule changes had the intended effect of improving the competition by allowing for more overtaking and thus a closer race. This is of interest because it allows us to see if the emphesis of downforce, new aerodynamic wings and nose and budget caps had the desired effect.
+
 
 
 
@@ -45,6 +47,12 @@ See http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 for guidance on prop
 If you got your data off the web, make sure to state the retrieval date.
 
 
+We used Formula 1 World Championship data, the whole data set goes from 1950-2023 but we used 2009-2023 as that's when modern racing regulations were changed.
+RaceID in results assigns a specific number to each race, this can be used to identify season by using the groupings we made.
+In the results table, milliseconds is the the time a driver took to finish a race,
+Driver id in drivers assigns each driver a number
+Points from Results shows the points each driver recieved from each race
+Q3 session from qualifying time of each driver from the third qualifying session. Q3 had to be converted from the time in minutes into milliseconds.
 
 
 
@@ -67,6 +75,17 @@ The addin will ignore code chunks and only count the words in prose. If you don'
 You can also load your data here and present any analysis results / plots.
 Make sure to hide your code with  `echo = FALSE` unless the point you are trying to make is about the code itself, in which case you should show your code.
 
+REPORT:500 Words
+We found that the regulation changes were not effective in making the sport more competitive. To determine this we looked at both driver and constructor performance.
+All our analysis was done from the 2009-2022 seasons. This is because in 2009 F1 was the beginning of the new points system and major changes to car regulations. The regulations we’re looking at were introduced for the 2022 season so while we can only look at the latest season when comparing effects but the hope is there will still be a noticeable difference between the seasons.
+To see if the regulation changes changed constructors at all we summed up each constructors points per season and calculated the standard deviation of constructor points per season. Applying a linear model over it shows a positive correlation. The standard deviation has been gradually increasing since 2009, indicating that the differences in constructors performances is increasing. If the regulations had the intended effect we would see a decrease or stagnation in standard deviation but the 2022 was the worst year yet.
+To see how the regulation changes affected drivers we looked at split times in qualifying seasons, races and changes in points performance.
+Each drivers points per season were summed up and the standard deviation was found. This was then plotted per season and a line of best fit was found for it. There has been a tend for the standard deviation to be increasing since 2009, this implies that the difference in performance between racers is increasing per season, this makes the sport less competitive as results aren’t close. 2022 sees a return to pre-pandemic levels but not a significant increase so the regulations may have helped curb this growing gap between racers.
+The average split time per race for each season was calculated. The split time is the time between
+each racer finishing the final lap and the racer after them. The plot shows quite sudden changes that coincide with different eras of car being used in F1. In 2014 the V6 engine was introduced which lead to an increase in average split times that gradually increased until 2018 when the new V6 large car era began causing a decrease in split times. The 2020 pandemic season showed a difference in split times but due to the return to trend in 2021 this can be viewed as an outlier. The 2022 season sees a dramatic drop in split times of over a second. This indicates that the regulation changes did were effective in increasing the competitiveness of the races. What would help support this conclusion would be to see if the trend continues in the coming seasons as teams adjust to the new regulations it wouldn’t be unexpected for split times to increase gradually as certain teams adapt better than others to the new regulations.
+The average split per qualifying  round 
+Our analysis shows that while individual racers have perhaps benefited from the regulation changes it has not been effective in stopping large constructors from dominating the sport. 
+
 
 
 
@@ -75,4 +94,4 @@ Make sure to hide your code with  `echo = FALSE` unless the point you are trying
 
 List any references here. You should, at a minimum, list your data source.
 
-
+Dataset:https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020
