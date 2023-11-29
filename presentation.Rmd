@@ -67,21 +67,23 @@ style_xaringan(
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## Our aim for doing this project
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Introduction
 
 ---
 
-# Hello World
+# How did we analyse
 
-- Click the `Knit` button to compile your presentation
+- Race split
 
-- Make sure to commit and push all resulting files to your GitHub repo
+- Constructor/driver
+
+- Qualisplit
 
 ---
 
@@ -173,9 +175,9 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
 
 
 ---
-## Constructor Points Per Season
+## Constructor Points and Driver Championship per season
 
-
+.pull-left[
 ```{r Constructor point, echo=FALSE, message=FALSE, warning=FALSE}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
@@ -268,20 +270,20 @@ constructorPointsPerSeason <- constructorPointsPerSeason %>%
 
 constructorPointsPerSeason %>%
   summarise(
-    sd_2009 = sd((`2009`)/17, na.rm = TRUE),
-    sd_2010 = sd((`2010`) / 19, na.rm = TRUE),
-    sd_2011 = sd((`2011`)/19, na.rm = TRUE),
-    sd_2012 = sd((`2012`) / 20, na.rm = TRUE),
-    sd_2013 = sd((`2013`) / 19, na.rm = TRUE),
-    sd_2014 = sd((`2014`) / 19, na.rm = TRUE),
-    sd_2015 = sd((`2015`) / 19, na.rm = TRUE),
-    sd_2016 = sd((`2016`) / 21, na.rm = TRUE),
-    sd_2017 = sd((`2017`) / 20, na.rm = TRUE),
-    sd_2018 = sd((`2018`) / 21, na.rm = TRUE),
-    sd_2019 = sd((`2019`) / 21, na.rm = TRUE),
-    sd_2020 = sd((`2020`) / 17, na.rm = TRUE),
-    sd_2021 = sd((`2021`) / 22, na.rm = TRUE),
-    sd_2022 = sd((`2022`) / 22, na.rm = TRUE)
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`) , na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
   ) %>%
   gather(key = "year", value = "sd") %>%
   mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
@@ -295,14 +297,13 @@ constructorPointsPerSeason %>%
     subtitle = '2009-2022'
   )
 ```
+]
 
 
 
 
 
----
-
-# Driver Championship
+.pull-right[
 
 ```{r Standard diviation of Drivers, echo=FALSE, message=FALSE}
 driverPointsPerSeason<-left_join(drivers,results,by='driverId')
@@ -396,20 +397,20 @@ driverPointsPerSeason <-driverPointsPerSeason %>%
 
 driverPointsPerSeason%>%
   summarise(
-    sd_2009 = sd((`2009`) / 17, na.rm = TRUE),
-    sd_2010 = sd((`2010`) / 19, na.rm = TRUE),
-    sd_2011 = sd((`2011`) / 19, na.rm = TRUE),
-    sd_2012 = sd((`2012`) / 20, na.rm = TRUE),
-    sd_2013 = sd((`2013`) / 19, na.rm = TRUE),
-    sd_2014 = sd((`2014`) / 19, na.rm = TRUE),
-    sd_2015 = sd((`2015`) / 19, na.rm = TRUE),
-    sd_2016 = sd((`2016`) / 21, na.rm = TRUE),
-    sd_2017 = sd((`2017`) / 20, na.rm = TRUE),
-    sd_2018 = sd((`2018`) / 21, na.rm = TRUE),
-    sd_2019 = sd((`2019`) / 21, na.rm = TRUE),
-    sd_2020 = sd((`2020`) / 17, na.rm = TRUE),
-    sd_2021 = sd((`2021`) / 22, na.rm = TRUE),
-    sd_2022 = sd((`2022`) / 22, na.rm = TRUE)
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`), na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
   ) %>%
   gather(key = "year", value = "sd") %>%
   mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
@@ -423,8 +424,14 @@ driverPointsPerSeason%>%
     subtitle = '2009-2022'
   )
 ```
+]
 
 
+---
+
+class: inverse, center, middle
+
+# Conclusion
 
 ---
 

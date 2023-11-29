@@ -65,10 +65,19 @@ results %>%
     .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
     .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
   )
-  )%>% group_by(season)  %>% drop_na(season) %>% summarise(y =mean(split_time, na.rm = TRUE)) %>%
+  )%>%
+  group_by(season)%>%
+  filter(split_time !=0) %>%
+  drop_na(season) %>%
+  summarise(y =mean(split_time, na.rm = TRUE)) %>%
   ggplot() +
-  geom_point(mapping = aes(x = season, y = y))
-    
+  geom_point(mapping = aes(x = season, y = y/1000))+
+  labs(
+    title = "Average Split Time per season",
+    subtitle = "2009-2022",
+    x = "Season",
+    y= "Average Split time (seconds)"
+  )
 
 ```
 
