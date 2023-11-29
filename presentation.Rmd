@@ -14,6 +14,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       
+      
 ---
 
 ```{r install-package, include = FALSE, eval = FALSE}
@@ -61,13 +62,23 @@ status <- read_csv('data/status.csv')
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/slide1.png"
 )
 ```
 
+
+
 class: center, middle
 
-## Our aim for doing this project
+
+# Whether simply car bodies improve racing overall or not
+
+```{r}
+style_xaringan(
+  slide_background_image = 
+)
+```
+
 
 ---
 
@@ -134,9 +145,12 @@ tidy(model)
 glance(model)
 ```
 
+
 ---
 
 # Plots
+
+
 
 ```{r recode-species, echo = FALSE}
 # In this chunk I'm doing a bunch of analysis that I don't want to present 
