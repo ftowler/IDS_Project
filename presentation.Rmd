@@ -182,10 +182,50 @@ ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
   theme_minimal()
 ```
 ]
+---
+``` {r Sum of Races Time Per Race, echo=FALSE, message=FALSE, warning=FALSE}
+results %>%
+  arrange(raceId,positionOrder)%>%
+  mutate(
+  split_time =  if_else(.$positionOrder == 1 ,0,
+                        if_else(.$positionOrder == "//N" ,0, as.integer(.$milliseconds) - lag(as.integer(.$milliseconds)))),
+  season = case_when(
+    .$raceId >= 1 & .$raceId <= 17 ~ "2009",
+    .$raceId >= 337 & .$raceId <= 355 ~ "2010",
+    .$raceId >= 841 & .$raceId <= 859 ~ "2011",
+    .$raceId >= 860 & .$raceId <= 879 ~ "2012",
+    .$raceId >= 880 & .$raceId <= 899 ~ "2013",
+    .$raceId >= 900 & .$raceId <= 918 ~ "2014",
+    .$raceId >= 926 & .$raceId <= 945 ~ "2015",
+    .$raceId >= 948 & .$raceId <= 968 ~ "2016",
+    .$raceId >= 969 & .$raceId <= 988 ~ "2017",
+    .$raceId >= 989  & .$raceId <= 1009 ~ "2018",
+    .$raceId >= 1010 & .$raceId <= 1030 ~ "2019",
+    .$raceId >= 1031  & .$raceId <= 1047 ~ "2020",
+    .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
+    .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
+  )
+  )%>%
+  group_by(season)%>%
+  filter(split_time !=0) %>%
+  drop_na(season) %>%
+  summarise(y =mean(split_time, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = season, y = y/1000))+
+  labs(
+    title = "Average Split Time per season",
+    subtitle = "2009-2022",
+    x = "Season",
+    y= "Average Split time (seconds)"
+  )
 
+```
 
 ---
 ## Constructor Points and Driver Championship per season
+
+
+
 
 .pull-left[
 ```{r Constructor point, echo=FALSE, message=FALSE, warning=FALSE}
@@ -436,6 +476,141 @@ driverPointsPerSeason%>%
 ```
 ]
 
+---
+
+##Quali split
+
+
+.pull-left[
+```{r quali split table, echo=FALSE, message=FALSE, warning=FALSE}
+
+new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
+new_drivers1<-subset(new_drivers,select=-c(number)) 
+new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
+driver_data <- merge(qualifying, new_drivers1, by = "driverId")
+constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
+ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "position.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q1.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
+qd <- as.data.frame(qualifying_data)
+colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
+
+timeToSec <- function(time_str) {
+  time_parts <- strsplit(time_str, ":")[[1]]
+  minutes <- as.numeric(time_parts[1])
+  seconds <- as.numeric(time_parts[2])
+  total_seconds <- minutes * 60 + seconds
+  return(total_seconds)
+}
+avg_quali <- qd %>%
+  select(q3, raceId) %>%
+  filter(
+    raceId %in% 1:17 |
+    raceId %in% 337:355 |
+    raceId %in% 841:859 |
+    raceId %in% 860:879 |
+    raceId %in% 880:899 |
+    raceId %in% 900:918 |
+    raceId %in% 926:945 |
+    raceId %in% 948:968 |
+    raceId %in% 969:988 |
+    raceId %in% 989:1009 |
+    raceId %in% 1010:1030 |
+    raceId %in% 1031:1047 |
+    raceId %in% 1052:1073 |
+    raceId %in% 1074:1096
+  ) %>%
+  mutate(q3 = sapply(q3, timeToSec)) %>%
+  group_by(raceId) %>%
+  summarise(q3_sd = sd(q3,na.rm=TRUE))
+
+m09 <- avg_quali %>%
+  filter(raceId %in% 1:17) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m10 <- avg_quali %>%
+  filter(raceId %in% 337:355) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m11 <- avg_quali %>%
+  filter(raceId %in% 841:859) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m12 <- avg_quali %>%
+  filter(raceId %in% 860:879) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m13 <- avg_quali %>%
+  filter(raceId %in% 880:899) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m14 <- avg_quali %>%
+  filter(raceId %in% 900:918) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m15 <- avg_quali %>%
+  filter(raceId %in% 926:945) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m16 <- avg_quali %>%
+  filter(raceId %in% 948:968) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m17 <- avg_quali %>%
+  filter(raceId %in% 968:988) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m18 <- avg_quali %>%
+  filter(raceId %in% 989:1009) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m19 <- avg_quali %>%
+  filter(raceId %in% 1010:1030) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m20 <- avg_quali %>%
+  filter(raceId %in% 1031:1047) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m21 <- avg_quali %>%
+  filter(raceId %in% 1052:1073) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m22 <- avg_quali %>%
+  filter(raceId %in% 1074:1096) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+result_df <- bind_rows(
+  m09 %>% mutate(Year = 2009),
+  m10 %>% mutate(Year = 2010),
+  m11 %>% mutate(Year = 2011),
+  m12 %>% mutate(Year = 2012),
+  m13 %>% mutate(Year = 2013),
+  m14 %>% mutate(Year = 2014),
+  m15 %>% mutate(Year = 2015),
+  m16 %>% mutate(Year = 2016),
+  m17 %>% mutate(Year = 2017),
+  m18 %>% mutate(Year = 2018),
+  m19 %>% mutate(Year = 2019),
+  m20 %>% mutate(Year = 2020),
+  m21 %>% mutate(Year = 2021),
+  m22 %>% mutate(Year = 2022)
+)
+
+kable(head(result_df), format = "html")
+
+
+
+```
+]
+
+.pull-right[
+```{r quali split graph, echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(
+    title = "Average qualifying split time per season",
+    x = "Year",
+    y = "Average qualifying split time in seconds",
+    subtitle = '2009 - 2022'
+  )
+
+
+```
+]
 
 ---
 
