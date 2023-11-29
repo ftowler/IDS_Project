@@ -58,7 +58,7 @@ status <- read_csv('data/status.csv')
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "https://wallpaperaccess.com/full/2847328.jpg"
+  title_slide_background_image = "https://garden.spoonflower.com/c/9509089/p/f/l/7vfa-bvSazfQLS35By324nUTWs2tg3tIhVElggXo-FpMyjp6TXsI2g/Dark%20Emerald%20Green.jpg"
 )
 ```
 
@@ -77,12 +77,15 @@ background-size: cover
 ---
 
 class: center, middle, inverse
-background-image: url("https://thedrum-media.imgix.net/thedrum-prod/s3/news/tmp/689017/adobestock_118548565.jpeg?w=1280&ar=default&fit=crop&crop=faces,edges&auto=format")
-background-size: cover
+
 
 
 ## Introduction
+
 ---
+class: inverse
+
+
 Due to introduce a budget cap and rules change in 2022 FORMULA 1, race cars have to use less complex and intricate bodies. This situation leads to less distribute airflow, in theory. Our project aim is seeking whether these new rules are precious or not.
 
 ```{r, echo=FALSE, message=FALSE}
@@ -91,6 +94,9 @@ include_graphics("https://media.formula1.com/image/upload/content/dam/fom-websit
 
 
 ---
+
+
+
 
 # How did we analyse
 
@@ -102,6 +108,9 @@ include_graphics("https://media.formula1.com/image/upload/content/dam/fom-websit
 
 
 ---
+
+
+
 ``` {r Sum of Races Time Per Race, echo=FALSE, message=FALSE, warning=FALSE}
 results %>%
   arrange(raceId,positionOrder)%>%
@@ -141,6 +150,8 @@ results %>%
 ```
 
 ---
+
+
 ## Constructor Points and Driver Championship for each season
 
 
@@ -396,6 +407,7 @@ driverPointsPerSeason%>%
 ]
 
 ---
+
 
 ##Quali split
 
