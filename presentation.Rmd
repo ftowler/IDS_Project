@@ -64,9 +64,11 @@ style_xaringan(
 
 
 
-class: center, middle
+class: center, middle,inverse
+background-image: url("img/slide2.jpg")
+background-size: cover
 
-
+# aim for doing this project
 # Whether simply car bodies improve racing overall or not
 
 
@@ -75,19 +77,11 @@ class: center, middle
 ---
 
 class: center, inverse
-background-image: url("img/slide2.jpg")
-background-size: cover
-
-```{r include=FALSE, }
-
-
-
-```
-
 
 
 # Introduction
 
+Due to introduce a budget cap and rules change in 2022 FORMULA 1, race cars have to use less complex and intricate bodies. This situation leads to less distribute airflow, in theory. Our project aim is seeking whether these new rules are precious or not.
 ---
 
 # How did we analyse
