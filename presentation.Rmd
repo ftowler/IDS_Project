@@ -1,7 +1,7 @@
 ---
-title: "2022 F1 Regulations Improve Racing as Intended"
-subtitle: "based on past racing data"
-author: "by Team-Name: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
+title: "Did the 2022 F1 Regulations Improve Racing as Intended"
+subtitle: "based on data from 2009-2022"
+author: "by Group 8: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -68,23 +68,8 @@ class: center, inverse
 background-image: url("img/slide2.jpg")
 background-size: cover
 
-#Figure out whether simply car bodies improve racing overall or not
+#Introduction
 
-
-
-
----
-
-class: center,inverse
-background-image: url("img/slide3.jpeg")
-background-size: cover
-
-
-## Introduction
-
---
-
-Due to introduce a budget cap and rules change in 2022 FORMULA 1, race cars have to use less complex and intricate bodies. This situation leads to less distribute airflow, in theory. Our project aim is seeking whether these new rules are precious or not.
 
 ---
 class: inverse
@@ -97,19 +82,19 @@ include_graphics("https://media.formula1.com/image/upload/content/dam/fom-websit
 
 class: center,inverse
 
-# How did we analyse
+# How did we analyse the data
 --
 
-# -race split
-
---
-
-# -Constructor/driver
-
+# -Race time split
 
 --
 
-# -Quali split
+# -Constructor/driver championship points
+
+
+--
+
+# -Qualifying Split Time
 
 ---
 
@@ -156,12 +141,11 @@ results %>%
 ---
 
 
-## Constructor Points and Driver Championship for each season
+## Constructor Points
 
 
 
 
-.pull-left[
 ```{r Constructor point, echo=FALSE, message=FALSE, warning=FALSE}
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
@@ -275,19 +259,19 @@ constructorPointsPerSeason %>%
   geom_point() +
   geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
   labs(
-    title = "Standard Deviation of Points per Race for Each Season",
+    title = "Standard Deviation of Constructor Points per Race for Each Season",
     x = "Season",
     y = "Standard Deviation",
     subtitle = '2009-2022'
   )
 ```
-]
 
 
 
+---
 
 
-.pull-right[
+##Driver Championship
 
 ```{r Standard diviation of Drivers, echo=FALSE, message=FALSE}
 driverPointsPerSeason<-left_join(drivers,results,by='driverId')
@@ -402,7 +386,46 @@ driverPointsPerSeason%>%
   geom_point() +
   geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
   labs(
-    title = "Standard Deviation of Points per Race for Each Season",
+    title = "Standard Deviation of Driver Points per Race for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+```
+
+
+---
+## Constructor Points and Driver Championship for each season
+
+
+
+
+.pull-left[
+```{r,echo=FALSE,message=FALSE, warning=FALSE}
+constructorPointsPerSeason %>%
+  summarise(
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`) , na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
+  geom_point() +
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of Constructor Points per Race for Each Season",
     x = "Season",
     y = "Standard Deviation",
     subtitle = '2009-2022'
@@ -410,13 +433,44 @@ driverPointsPerSeason%>%
 ```
 ]
 
+.pull-right[
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+driverPointsPerSeason%>%
+  summarise(
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`), na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
+  geom_point() +
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of Driver Points per Race for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+```
+]
 ---
 
 
-##Quali split
+##Qualifying split time for Qualifying Session 3
 
 
-.pull-left[
 ```{r quali split table, echo=FALSE, message=FALSE, warning=FALSE}
 
 new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
@@ -524,14 +578,12 @@ result_df <- bind_rows(
   m22 %>% mutate(Year = 2022)
 )
 
-kable(head(result_df), format = "html")
+
 
 
 
 ```
-]
 
-.pull-right[
 ```{r quali split graph, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
   geom_point() +
@@ -545,7 +597,7 @@ ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
 
 
 ```
-]
+
 
 ---
 
