@@ -58,7 +58,7 @@ status <- read_csv('data/status.csv')
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "https://garden.spoonflower.com/c/9509089/p/f/l/7vfa-bvSazfQLS35By324nUTWs2tg3tIhVElggXo-FpMyjp6TXsI2g/Dark%20Emerald%20Green.jpg"
+  title_slide_background_image = "img/slide1.png"
 )
 ```
 

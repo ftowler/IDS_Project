@@ -135,7 +135,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("https://garden.spoonflower.com/c/9509089/p/f/l/7vfa-bvSazfQLS35By324nUTWs2tg3tIhVElggXo-FpMyjp6TXsI2g/Dark%20Emerald%20Green.jpg");
+  background-image: url("img/slide1.png");
   background-size: cover;
 }
 .title-slide .remark-slide-number {
