@@ -1,7 +1,7 @@
 ---
-title: "Did the 2022 F1 Regulations Improve Racing as Intended"
-subtitle: "based on data from 2009-2022"
-author: "by Group 8: Dimitri Rao, Fergus Towler, Eric Zhang, Moses Weintraub & Alan Zang"
+title: "Accelerating Fair Play?"
+subtitle: "A Comprehensive Analysis of the Impact of 2022 F1 Regulations on Racing Competitiveness"
+author: "Group 8: Alan Zang, Dimitri Rao, Eric Zhang, Fergus Towler, & Moses Weintraub"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -73,7 +73,7 @@ background-size: cover
 
 ---
 class: inverse
-# Structures comparisons
+# F1 Car Comparison
 ```{r,echo=FALSE, message=FALSE}
 include_graphics("https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/2021manual/2021BritishManualAdds/2022CarImages/Comparisons/2021%20Car%20vs%202022%20Car%2016x9%20FRONT%203Q.jpg")
 ```
@@ -82,7 +82,7 @@ include_graphics("https://media.formula1.com/image/upload/content/dam/fom-websit
 
 class: center,inverse
 
-# How did we analyse the data
+# How did we analyse the data?
 --
 
 # -Race time split
