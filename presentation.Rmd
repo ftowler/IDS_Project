@@ -58,7 +58,7 @@ status <- read_csv('data/status.csv')
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "img/slide1.png"
+  title_slide_background_image = "img/slidef1.jpg"
 )
 ```
 
@@ -68,9 +68,7 @@ class: center, inverse
 background-image: url("img/slide2.jpg")
 background-size: cover
 
-# aim for doing this project:
---
-Figure out whether simply car bodies improve racing overall or not
+#Figure out whether simply car bodies improve racing overall or not
 
 
 
@@ -559,6 +557,8 @@ class: inverse, center, middle
 
 
 ---
-class: inverse, center, middle
+class: inverse, center
+background-image: url("img/thanks.jpeg")
+background-size: cover
 
 # Thanks for listening
