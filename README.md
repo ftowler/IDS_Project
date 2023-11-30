@@ -32,12 +32,11 @@ There will be two check-in points where you will have a discussion with a tutor 
 
 ## Check-in 1 (week 6)
 
-- item 1
-- item 2
-- etc.
+- After a comprehensive and thought provoking discussion considering many strong ideas, we decided to analyse F1 2022 regulations and see they if worked as intended.
+- We found our data from kaggle, imported to github and converted from a csv to a table.
+
 
 ## Check-in 2 (week 10)
 
-- item 1
-- item 2
-- etc.
+-We made substantial progress on our code and got help with correcting a few error we could not figure out how to fix on our own. 
+- We begun work on our presentation and report.
