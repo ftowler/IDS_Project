@@ -22,7 +22,7 @@ install.packages('xaringan')
 ```
 
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
+
 library(tidyverse)
 library(tidymodels)
 library(palmerpenguins)
@@ -31,7 +31,7 @@ library(xaringanthemer)
 ```
 
 ```{r setup, include=FALSE}
-# For better figure resolution
+
 knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618, out.width = "80%")
 ```
 
@@ -69,44 +69,44 @@ background-image: url("img/slide2.jpg")
 background-size: cover
 
 # aim for doing this project:
-# Figure out whether simply car bodies improve racing overall or not
+--
+Figure out whether simply car bodies improve racing overall or not
 
 
 
 
 ---
 
-class: center, middle, inverse
-
+class: center,inverse
+background-image: url("img/slide3.jpeg")
+background-size: cover
 
 
 ## Introduction
 
----
-class: inverse
-
+--
 
 Due to introduce a budget cap and rules change in 2022 FORMULA 1, race cars have to use less complex and intricate bodies. This situation leads to less distribute airflow, in theory. Our project aim is seeking whether these new rules are precious or not.
 
-```{r, echo=FALSE, message=FALSE}
-include_graphics("https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/2021manual/2021BritishManualAdds/2022CarImages/Comparisons/2021%20Car%20vs%202022%20Car%2016x9%20FRONT%203Q.jpg")
-```
-
-
 ---
 
 
-
-
 # How did we analyse
+--
+.pull-right[
+- race split
 
-- Race split
-
+]
+--
+.pull-right[
 - Constructor/driver
 
-- Qualisplit
+]
+--
+.pull-right[
+- Quali split
 
-
+]
 ---
 
 
