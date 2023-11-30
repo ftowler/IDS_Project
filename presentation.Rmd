@@ -89,24 +89,22 @@ background-size: cover
 Due to introduce a budget cap and rules change in 2022 FORMULA 1, race cars have to use less complex and intricate bodies. This situation leads to less distribute airflow, in theory. Our project aim is seeking whether these new rules are precious or not.
 
 ---
-
+class: center,inverse
 
 # How did we analyse
 --
-.pull-right[
-- race split
 
-]
+# -race split
+
 --
-.pull-right[
-- Constructor/driver
 
-]
+# -Constructor/driver
+
+
 --
-.pull-right[
-- Quali split
 
-]
+# -Quali split
+
 ---
 
 
