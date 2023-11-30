@@ -1,4 +1,4 @@
-x`---
+---
 title: "Did the Formula 2022 Rule Change Improve Racing as Intended."
 author: "by : Dimitri Rao, Eric Zhang, Ray Zang, Fergus Towler & Moses Weintraub"
 date: "`r Sys.Date()`"
@@ -22,25 +22,14 @@ library(tidyverse)
 ```{r load-data, include=FALSE}
 # load your data here and any pre-processing/cleaning 
 #  that you need for your report.
-circuits <- read_csv("data/circuits.csv")
 constructor_results <- read_csv('data/constructor_results.csv')
-constructor_standings <- read_csv('data/constructor_standings.csv')
 constructors <- read_csv('data/constructors.csv')
-driver_standings <- read_csv('data/driver_standings.csv')
 drivers <- read_csv('data/drivers.csv')
-lap_times <- read_csv('data/lap_times.csv')
-pit_stops <- read_csv('data/pit_stops.csv')
 qualifying <- read_csv('data/qualifying.csv')
 races <- read_csv('data/races.csv')
 results <- read_csv('data/results.csv')
-seasons <- read_csv('data/seasons.csv')
-sprint_results <- read_csv('data/sprint_results.csv')
-status <- read_csv('data/status.csv')
-
-
-
 ```
-```{r Drivers and Constructors}
+```{r Drivers and Constructors, message = FALSE, warning = FALSE }
 new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
 new_drivers1<-subset(new_drivers,select=-c(number)) 
 new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
@@ -59,7 +48,7 @@ qd <- as.data.frame(qualifying_data)
 colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
 ```
 
-```{r constructorPointsPerSeasonTable}
+```{r constructorPointsPerSeasonTable, message = FALSE, warning = FALSE }
 constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
 season09<-constructorPointsPerSeason%>%
   filter(raceId>=1,raceId<=17)%>%
@@ -149,7 +138,7 @@ constructorPointsPerSeason <- constructorPointsPerSeason %>%
     `2022` = `sum(points).y.y.y.y.y.y.y`
   )
 ```
-```{r driver championship}
+```{r driver championship, message = FALSE, warning = FALSE }
 driverPointsPerSeason<-left_join(drivers,results,by='driverId')
 Season09 <- driverPointsPerSeason %>% #season09
   filter(raceId >= 1, raceId <= 17) %>%
@@ -240,7 +229,7 @@ driverPointsPerSeason <-driverPointsPerSeason %>%
   )
 
 ```
-```{r quali split table}
+```{r quali split table, message = FALSE, warning = FALSE }
 timeToSec <- function(time_str) {
   time_parts <- strsplit(time_str, ":")[[1]]
   minutes <- as.numeric(time_parts[1])
@@ -330,9 +319,9 @@ result_df <- bind_rows(
 )
 
 ```
+
 ## Research Question
 
-<<<<<<< HEAD
 In 2022, Formula One completely changed the rules and regulations for the cars and introduce a budget cap. The aim being to improve the racing by making the cars have less complex and intricate bodies that disrupted the airflow behind the car. The disrupted airflow would compromise the car behind as the aerodynamics would not be able to act as effectively. This normally led to very few overtakes in boring races. But with these new cars, in theory, the cars can follow each other more closely and the budget cap will reduce the performance difference and improve racing overall. But did this work. Through data analysis, this group will determine whether these new rules worked.
 
 
@@ -352,11 +341,13 @@ Q3 session from qualifying time of each driver from the third qualifying session
 
 ## Findings
 
+### Introduction ###
 To analyse whether or not the 2022 Formula 1 rule changes made racing more competitive, we first looked through the years of 2009 to 2022. In 2009, F1 cars were in the middle of the V8 era and were beginning to become more complex; being in line with the 2010 era of formula one cars. In years prior, f1 cars were a lot simpler and this would therefore warp our conclusions. We decided to not include the 2023 season as during production of the project, the 2023 season was still ongoing and it would be too much of a challenge to implement it during coding.
 
 In order to analyse the effect of new aerodynamics and budget caps, we looked at qualifying times, race times, constructor championship points and driver championship points. This would give us an insight into the races themselves and the overall season points.
 
-```{r quali split graph}
+### Qualifying Split Time ###
+```{r quali split graph, message = FALSE, warning = FALSE }
 ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
   geom_point() +
   geom_smooth(method = 'lm', se = FALSE) +
@@ -374,7 +365,8 @@ For the qualifying and race times, we found the average standard deviation of ea
 
 For qualifying, we only focused on Qualifying session 3 which contains 10/20 drivers. This was chosen because it would focus on the competitive drivers and the overall performance of the car is more prominent in qualifying than in the race. This is because during the race, driver skill and strategy for pitstops come into play. So, we found the average standard deviation of the qualifying times per season then plotted this per season. From the graph, we clearly see that there is a clear increase in difference in qualifying time. This is true for 2022 with the value being higher than that of 2014 and 2016, these being 2 years of extreme Mercedes domination. Since the cars are not racing, this would not give us insight into the effectiveness of the simpler aerodynamics, it would give us insight into the effectiveness of the budget cap, and it clearly was not in the first year. 
 
-``` {r Sum of Races Time Per Race}
+### Average Split time per season ###
+``` {r Sum of Races Time Per Race, message = FALSE, warning = FALSE }
 results %>%
   arrange(raceId,positionOrder)%>%
   mutate(
@@ -416,7 +408,8 @@ For the race time, we looked at the mean split time at the end of each race, the
 
 When graphed, the points are very scattered making a line of best fit not suitable. However, key trends can be spotted. The first ones being Sebastian Vettel domination. The year of 2013 was a masterclass by this driver with 2011 being one of his best seasons in terms of race pace. In 2013, while his race pace may not have been as stellar as 2011, his qualifying pace was, and this is clearly shown in the qualifying split graph. The next key trend is during the years of 2014-2017 with Mercedes domination. This was the year that F1 moved to V6 Hybrid engines and Mercedes was the key benefactor. With the race times jumping ahead of the V8 era of cars. 2017 is the highest due to Lewis Hamilton, a Mercedes driver, no longer his rival Nico Rosberg compete for the championship, so Lewis was free to reign. From 2018 to 2021, the field got closer to Mercedes with Red Bull Racing being matched with them in 2021. There is a small outlier in 2020 with the Covid 19 outbreak affecting development for some teams more than others. And finally, in 2022, the race split did decrease as with the simple aerodynamics, the cars could follow each other more and the split times are close. However, this does not imply more overtakes and close racing which happened to be the case in 2022 with Red Bull making a superior car to the rest of the field.
 
-```{r makingConstructorGraph}
+### Standard Deviation of Constructor and driver points ###
+```{r makingConstructorGraph, message = FALSE, warning = FALSE }
 constructorPointsPerSeason %>%
   summarise(
     sd_2009 = sd((`2009`), na.rm = TRUE),
@@ -447,7 +440,7 @@ constructorPointsPerSeason %>%
   )
 ```
 
-```{r Standard diviation of Drivers}
+```{r Standard diviation of Drivers, message = FALSE, warning = FALSE }
 driverPointsPerSeason%>%
   summarise(
     sd_2009 = sd((`2009`), na.rm = TRUE),
@@ -483,15 +476,15 @@ Next, we graphed the Standard Deviation of Points per Race for Each Season of ea
 
 This trend was then broken in 2020 with Covid 19 as seen clearly on both graphs. During this time, development for teams was halted with some teams being more affected than others, this means that the field of cars got closer. Furthermore, there were less races in 2020 so the top teams had less points to increase their gap with. In 2021, Red Bull and Mercedes were evenly matched, and this is seen with the point for 2021 on both graphs being below the line. Finally, with the new era of formula one cars, red bull was one of the only teams to make a very good car so the points on both graphs shot back up.
 
+### Conclusion ###
 In conclusion, the regulation changes overall have not increased competitiveness but have allowed individual races to become more competitive. The qualifying session three race times still trended upwards after the regulations which shows that budget caps have not reduced the difference in car performance. The split time analysis does show a reduction since the introduction of the regulations showing that races were closer. Therefore, the change in aerodynamics regulations has had the intended effect of allowing cars to follow each other more closely making races closer and more competitive. Since the constructor and driver points per Race for Each Season standard deviation graphs continued their trend of increasing, the regulation changes have not worked as intended. If the regulation changes were to have worked as intended, we would see a drop in standard deviation. Furthermore, the trend of an increasing gap between high and low performing drivers and constructors has not been slowed. Overall, the dramatic changes in aerodynamics have allowed races to become closer but budget constraints have not stopped major constructors from continuing to dominate due to their superior infrastructure and machinery. As 2022 is the first year of the new F1 cars, it is most certainly possible that it may just take more time for all the teams to understand the new regulations and increase their competitiveness.  
 
 
 
 
 
-## References
+### References
 
 
 Dataset:https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020 (27/10/2023)
 https://www.formula1.com/en/results.html/2012/drivers.html (29/11/2023)
-
