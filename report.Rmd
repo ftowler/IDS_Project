@@ -1,4 +1,4 @@
----
+x`---
 title: "Did the Formula 2022 Rule Change Improve Racing as Intended."
 author: "by : Dimitri Rao, Eric Zhang, Ray Zang, Fergus Towler & Moses Weintraub"
 date: "`r Sys.Date()`"
@@ -40,8 +40,296 @@ status <- read_csv('data/status.csv')
 
 
 ```
+```{r Drivers and Constructors}
+new_drivers<-subset(drivers,select=-c(driverRef,code,dob, nationality, url))
+new_drivers1<-subset(new_drivers,select=-c(number)) 
+new_constructors<-subset(constructors,select=-c(constructorRef,nationality,url))
+driver_data <- merge(qualifying, new_drivers1, by = "driverId")
+constructor_data <- merge(qualifying, new_constructors, by = "constructorId")
+qualifying_data <- merge(constructor_data, driver_data, by = "qualifyId")
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "constructorId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "raceId.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "driverId.x")]
+ qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "number.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "position.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q1.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q2.x")]
+qualifying_data <- qualifying_data[, -which(names(qualifying_data) == "q3.x")]
+qd <- as.data.frame(qualifying_data)
+colnames(qd) <- c("qualifyId", "name", "driverId", "raceId", "constructorId", "number", "position", "q1", "q2", "q3", "forename", "surname")
+```
 
+```{r constructorPointsPerSeasonTable}
+constructorPointsPerSeason<-left_join(constructors,constructor_results,by='constructorId')
+season09<-constructorPointsPerSeason%>%
+  filter(raceId>=1,raceId<=17)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season10<-constructorPointsPerSeason%>%
+  filter(raceId>=337,raceId<=355)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season11<-constructorPointsPerSeason%>%
+  filter(raceId>=841,raceId<=859)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season12<-constructorPointsPerSeason%>%
+  filter(raceId>=860,raceId<=879)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season13<-constructorPointsPerSeason%>%
+  filter(raceId>=880,raceId<=899)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season14<-constructorPointsPerSeason%>%
+  filter(raceId>=900,raceId<=918)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season15<-constructorPointsPerSeason%>%
+  filter(raceId>=926,raceId<=945)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season16<-constructorPointsPerSeason%>%
+  filter(raceId>=948,raceId<=968)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season17<-constructorPointsPerSeason%>%
+  filter(raceId>=969,raceId<=988)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season18<-constructorPointsPerSeason%>%
+  filter(raceId>=989,raceId<=1009)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season19<-constructorPointsPerSeason%>%
+  filter(raceId>=1010,raceId<=1030)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season20<-constructorPointsPerSeason%>%
+  filter(raceId>=1031,raceId<=1047)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season21<-constructorPointsPerSeason%>%
+  filter(raceId>=1052,raceId<=1073)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+season22<-constructorPointsPerSeason%>%
+  filter(raceId>=1074,raceId<=1096)%>%
+  group_by(name)%>%
+  summarise(sum(points))
+constructorPointsPerSeason<-full_join(season09,season10,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season11,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season12,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season13,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season14,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season15,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season16,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season17,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season18,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season19,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season20,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season21,by='name')
+constructorPointsPerSeason<-full_join(constructorPointsPerSeason,season22,by='name')
+constructorPointsPerSeason <- constructorPointsPerSeason %>%
+  rename(
+    Constructor_Name = name,
+    `2009` = `sum(points).x`,
+    `2010` = `sum(points).y`,
+    `2011` = `sum(points).x.x`,
+    `2012` = `sum(points).y.y`,
+    `2013` = `sum(points).x.x.x`,
+    `2014` = `sum(points).y.y.y`,
+    `2015` = `sum(points).x.x.x.x`,
+    `2016` = `sum(points).y.y.y.y`,
+    `2017` = `sum(points).x.x.x.x.x`,
+    `2018` = `sum(points).y.y.y.y.y`,
+    `2019` = `sum(points).x.x.x.x.x.x`,
+    `2020` = `sum(points).y.y.y.y.y.y`,    
+    `2021` = `sum(points).x.x.x.x.x.x.x`,
+    `2022` = `sum(points).y.y.y.y.y.y.y`
+  )
+```
+```{r driver championship}
+driverPointsPerSeason<-left_join(drivers,results,by='driverId')
+Season09 <- driverPointsPerSeason %>% #season09
+  filter(raceId >= 1, raceId <= 17) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season10 <- driverPointsPerSeason %>% #season10
+  filter(raceId >= 337, raceId <= 355) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season11 <- driverPointsPerSeason %>% #season11
+  filter(raceId >= 841, raceId <= 859) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season12 <- driverPointsPerSeason %>% #season12
+  filter(raceId >= 860, raceId <= 879) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season13 <- driverPointsPerSeason %>% #season13
+  filter(raceId >= 880, raceId <= 899) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season14 <- driverPointsPerSeason %>% #season14
+  filter(raceId >= 900, raceId <= 918) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season15 <- driverPointsPerSeason %>% #season15
+  filter(raceId >= 926, raceId <= 945) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season16 <- driverPointsPerSeason %>% #season16
+  filter(raceId >= 948, raceId <= 968) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season17 <- driverPointsPerSeason %>% #season17
+  filter(raceId >= 969, raceId <= 988) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season18 <- driverPointsPerSeason %>% #season18
+  filter(raceId >= 989, raceId <= 1009) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season19 <- driverPointsPerSeason %>% #season19
+  filter(raceId >= 1010, raceId <= 1030) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season20 <- driverPointsPerSeason %>% #season20
+  filter(raceId >= 1031, raceId <= 1047) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season21 <- driverPointsPerSeason %>% #season21
+  filter(raceId >= 1052, raceId <= 1073) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+Season22 <- driverPointsPerSeason %>% #season22
+  filter(raceId >= 1074, raceId <= 1096) %>%
+  group_by(driverId) %>%
+  summarise(sum(points))
+driverPointsPerSeason<-full_join(Season09,Season10,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season11,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season12,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season13,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season14,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season15,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season16,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season17,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season18,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season19,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season20,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season21,by='driverId')
+driverPointsPerSeason<-full_join(driverPointsPerSeason,Season22,by='driverId')
+driverPointsPerSeason <-driverPointsPerSeason %>%
+  rename(
+    Driver_ID = driverId,
+    `2009` = `sum(points).x`,
+    `2010` = `sum(points).y`,
+    `2011` = `sum(points).x.x`,
+    `2012` = `sum(points).y.y`,
+    `2013` = `sum(points).x.x.x`,
+    `2014` = `sum(points).y.y.y`,
+    `2015` = `sum(points).x.x.x.x`,
+    `2016` = `sum(points).y.y.y.y`,
+    `2017` = `sum(points).x.x.x.x.x`,
+    `2018` = `sum(points).y.y.y.y.y`,
+    `2019` = `sum(points).x.x.x.x.x.x`,
+    `2020` = `sum(points).y.y.y.y.y.y`,    
+    `2021` = `sum(points).x.x.x.x.x.x.x`,
+    `2022` = `sum(points).y.y.y.y.y.y.y`
+  )
 
+```
+```{r quali split table}
+timeToSec <- function(time_str) {
+  time_parts <- strsplit(time_str, ":")[[1]]
+  minutes <- as.numeric(time_parts[1])
+  seconds <- as.numeric(time_parts[2])
+  total_seconds <- minutes * 60 + seconds
+  return(total_seconds)
+}
+avg_quali <- qd %>%
+  select(q3, raceId) %>%
+  filter(
+    raceId %in% 1:17 |
+    raceId %in% 337:355 |
+    raceId %in% 841:859 |
+    raceId %in% 860:879 |
+    raceId %in% 880:899 |
+    raceId %in% 900:918 |
+    raceId %in% 926:945 |
+    raceId %in% 948:968 |
+    raceId %in% 969:988 |
+    raceId %in% 989:1009 |
+    raceId %in% 1010:1030 |
+    raceId %in% 1031:1047 |
+    raceId %in% 1052:1073 |
+    raceId %in% 1074:1096
+  ) %>%
+  mutate(q3 = sapply(q3, timeToSec)) %>%
+  group_by(raceId) %>%
+  summarise(q3_sd = sd(q3,na.rm=TRUE))
+
+m09 <- avg_quali %>%
+  filter(raceId %in% 1:17) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m10 <- avg_quali %>%
+  filter(raceId %in% 337:355) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m11 <- avg_quali %>%
+  filter(raceId %in% 841:859) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m12 <- avg_quali %>%
+  filter(raceId %in% 860:879) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m13 <- avg_quali %>%
+  filter(raceId %in% 880:899) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m14 <- avg_quali %>%
+  filter(raceId %in% 900:918) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m15 <- avg_quali %>%
+  filter(raceId %in% 926:945) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m16 <- avg_quali %>%
+  filter(raceId %in% 948:968) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m17 <- avg_quali %>%
+  filter(raceId %in% 968:988) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m18 <- avg_quali %>%
+  filter(raceId %in% 989:1009) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m19 <- avg_quali %>%
+  filter(raceId %in% 1010:1030) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m20 <- avg_quali %>%
+  filter(raceId %in% 1031:1047) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m21 <- avg_quali %>%
+  filter(raceId %in% 1052:1073) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+m22 <- avg_quali %>%
+  filter(raceId %in% 1074:1096) %>%
+  summarise(mean_sd_q3 = mean(q3_sd, na.rm = TRUE))
+result_df <- bind_rows(
+  m09 %>% mutate(Year = 2009),
+  m10 %>% mutate(Year = 2010),
+  m11 %>% mutate(Year = 2011),
+  m12 %>% mutate(Year = 2012),
+  m13 %>% mutate(Year = 2013),
+  m14 %>% mutate(Year = 2014),
+  m15 %>% mutate(Year = 2015),
+  m16 %>% mutate(Year = 2016),
+  m17 %>% mutate(Year = 2017),
+  m18 %>% mutate(Year = 2018),
+  m19 %>% mutate(Year = 2019),
+  m20 %>% mutate(Year = 2020),
+  m21 %>% mutate(Year = 2021),
+  m22 %>% mutate(Year = 2022)
+)
+
+```
 ## Research Question
 
 <<<<<<< HEAD
@@ -64,32 +352,139 @@ Q3 session from qualifying time of each driver from the third qualifying session
 
 ## Findings
 
-The write-up of your project and findings go here. 
+To analyse whether or not the 2022 Formula 1 rule changes made racing more competitive, we first looked through the years of 2009 to 2022. In 2009, F1 cars were in the middle of the V8 era and were beginning to become more complex; being in line with the 2010 era of formula one cars. In years prior, f1 cars were a lot simpler and this would therefore warp our conclusions. We decided to not include the 2023 season as during production of the project, the 2023 season was still ongoing and it would be too much of a challenge to implement it during coding.
 
-Think of this as the text of your presentation with some extra detail to cover what there was not time to discuss in the presentation. This might include any assumptions you made when doing your analysis, any limitations of the work you have done or any ideas you have for future work. Feel free to split this section into subsections to make it easier to read. 
+In order to analyse the effect of new aerodynamics and budget caps, we looked at qualifying times, race times, constructor championship points and driver championship points. This would give us an insight into the races themselves and the overall season points.
 
-The length should be roughly 1,500 words. 
-If you want to use a word count addin, you can install this by copying and pasting the following into RStudio:
+```{r quali split graph}
+ggplot(result_df, aes(x = Year, y = mean_sd_q3)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(
+    title = "Average qualifying split time per season",
+    x = "Year",
+    y = "Average qualifying split time in seconds",
+    subtitle = '2009 - 2022'
+  )
 
-`devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)`
 
-You will then need to restart RStudio. Once you have done that, select the text you want to count the words of, go to Addins, and select the `Word count` addin.
-This addin counts words using two different algorithms, but the results should be similar and as long as you're in the ballpark of 1,500 words, you're good! 
-The addin will ignore code chunks and only count the words in prose. If you don't want to use the addin you can always copy and paste the text into Microsoft Word to do a Word Count!
+```
 
-You can also load your data here and present any analysis results / plots.
-Make sure to hide your code with  `echo = FALSE` unless the point you are trying to make is about the code itself, in which case you should show your code.
+For the qualifying and race times, we found the average standard deviation of each season for the final race time and the qualifying 3 times. This would show us the average split between the field. The split is the difference in time between 2 drivers. So, in the race, we expect the split to be around 5 seconds, but in qualifying, where drivers must set a single lap time to determine where the driver starts in the race, we expect the difference to be less than a second as f1 is very competitive. To plot these onto a data visualisation, we first had to convert the time which was in the form HH:MM:SS, into a numeric value in seconds. We therefore created a function timeToSec which does this. We plotted this against each year as a numeric value to show a line of best fit.
 
-REPORT:500 Words
-We found that the regulation changes were not effective in making the sport more competitive. To determine this we looked at both driver and constructor performance.
-All our analysis was done from the 2009-2022 seasons. This is because in 2009 F1 was the beginning of the new points system and major changes to car regulations. The regulations we’re looking at were introduced for the 2022 season so while we can only look at the latest season when comparing effects but the hope is there will still be a noticeable difference between the seasons.
-To see if the regulation changes changed constructors at all we summed up each constructors points per season and calculated the standard deviation of constructor points per season. Applying a linear model over it shows a positive correlation. The standard deviation has been gradually increasing since 2009, indicating that the differences in constructors performances is increasing. If the regulations had the intended effect we would see a decrease or stagnation in standard deviation but the 2022 was the worst year yet.
-To see how the regulation changes affected drivers we looked at split times in qualifying seasons, races and changes in points performance.
-Each drivers points per season were summed up and the standard deviation was found. This was then plotted per season and a line of best fit was found for it. There has been a tend for the standard deviation to be increasing since 2009, this implies that the difference in performance between racers is increasing per season, this makes the sport less competitive as results aren’t close. 2022 sees a return to pre-pandemic levels but not a significant increase so the regulations may have helped curb this growing gap between racers.
-The average split time per race for each season was calculated. The split time is the time between
-each racer finishing the final lap and the racer after them. The plot shows quite sudden changes that coincide with different eras of car being used in F1. In 2014 the V6 engine was introduced which lead to an increase in average split times that gradually increased until 2018 when the new V6 large car era began causing a decrease in split times. The 2020 pandemic season showed a difference in split times but due to the return to trend in 2021 this can be viewed as an outlier. The 2022 season sees a dramatic drop in split times of over a second. This indicates that the regulation changes did were effective in increasing the competitiveness of the races. What would help support this conclusion would be to see if the trend continues in the coming seasons as teams adjust to the new regulations it wouldn’t be unexpected for split times to increase gradually as certain teams adapt better than others to the new regulations.
-The average split per qualifying  round 
-Our analysis shows that while individual racers have perhaps benefited from the regulation changes it has not been effective in stopping large constructors from dominating the sport. 
+For qualifying, we only focused on Qualifying session 3 which contains 10/20 drivers. This was chosen because it would focus on the competitive drivers and the overall performance of the car is more prominent in qualifying than in the race. This is because during the race, driver skill and strategy for pitstops come into play. So, we found the average standard deviation of the qualifying times per season then plotted this per season. From the graph, we clearly see that there is a clear increase in difference in qualifying time. This is true for 2022 with the value being higher than that of 2014 and 2016, these being 2 years of extreme Mercedes domination. Since the cars are not racing, this would not give us insight into the effectiveness of the simpler aerodynamics, it would give us insight into the effectiveness of the budget cap, and it clearly was not in the first year. 
+
+``` {r Sum of Races Time Per Race}
+results %>%
+  arrange(raceId,positionOrder)%>%
+  mutate(
+  split_time =  if_else(.$positionOrder == 1 ,0,
+                        if_else(.$positionOrder == "//N" ,0, as.integer(.$milliseconds) - lag(as.integer(.$milliseconds)))),
+  season = case_when(
+    .$raceId >= 1 & .$raceId <= 17 ~ "2009",
+    .$raceId >= 337 & .$raceId <= 355 ~ "2010",
+    .$raceId >= 841 & .$raceId <= 859 ~ "2011",
+    .$raceId >= 860 & .$raceId <= 879 ~ "2012",
+    .$raceId >= 880 & .$raceId <= 899 ~ "2013",
+    .$raceId >= 900 & .$raceId <= 918 ~ "2014",
+    .$raceId >= 926 & .$raceId <= 945 ~ "2015",
+    .$raceId >= 948 & .$raceId <= 968 ~ "2016",
+    .$raceId >= 969 & .$raceId <= 988 ~ "2017",
+    .$raceId >= 989  & .$raceId <= 1009 ~ "2018",
+    .$raceId >= 1010 & .$raceId <= 1030 ~ "2019",
+    .$raceId >= 1031  & .$raceId <= 1047 ~ "2020",
+    .$raceId >= 1052 & .$raceId <= 1073 ~ "2021",
+    .$raceId >= 1074 & .$raceId <= 1096 ~ "2022"
+  )
+  )%>%
+  group_by(season)%>%
+  filter(split_time !=0) %>%
+  drop_na(season) %>%
+  summarise(y =mean(split_time, na.rm = TRUE)) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = season, y = y/1000))+
+  labs(
+    title = "Average Split Time per season",
+    subtitle = "2009-2022",
+    x = "Season",
+    y= "Average Split time (seconds)"
+  )
+
+```
+
+For the race time, we looked at the mean split time at the end of each race, these were then split by season and graphed. The split time being the difference in time between the winning driver and the proceeding drivers. The split times were already given in milliseconds in the data set, so it was only a matter of finding the winner via position order, then excluding all non-recorded times, then finally running down the list and extracting the split times. To find the raceId per season, we created a notes document and wrote the ranges of raceId in each season, this was used throughout the code. 
+
+When graphed, the points are very scattered making a line of best fit not suitable. However, key trends can be spotted. The first ones being Sebastian Vettel domination. The year of 2013 was a masterclass by this driver with 2011 being one of his best seasons in terms of race pace. In 2013, while his race pace may not have been as stellar as 2011, his qualifying pace was, and this is clearly shown in the qualifying split graph. The next key trend is during the years of 2014-2017 with Mercedes domination. This was the year that F1 moved to V6 Hybrid engines and Mercedes was the key benefactor. With the race times jumping ahead of the V8 era of cars. 2017 is the highest due to Lewis Hamilton, a Mercedes driver, no longer his rival Nico Rosberg compete for the championship, so Lewis was free to reign. From 2018 to 2021, the field got closer to Mercedes with Red Bull Racing being matched with them in 2021. There is a small outlier in 2020 with the Covid 19 outbreak affecting development for some teams more than others. And finally, in 2022, the race split did decrease as with the simple aerodynamics, the cars could follow each other more and the split times are close. However, this does not imply more overtakes and close racing which happened to be the case in 2022 with Red Bull making a superior car to the rest of the field.
+
+```{r makingConstructorGraph}
+constructorPointsPerSeason %>%
+  summarise(
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`) , na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
+  geom_point() +
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of Points per Race for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+```
+
+```{r Standard diviation of Drivers}
+driverPointsPerSeason%>%
+  summarise(
+    sd_2009 = sd((`2009`), na.rm = TRUE),
+    sd_2010 = sd((`2010`), na.rm = TRUE),
+    sd_2011 = sd((`2011`), na.rm = TRUE),
+    sd_2012 = sd((`2012`), na.rm = TRUE),
+    sd_2013 = sd((`2013`), na.rm = TRUE),
+    sd_2014 = sd((`2014`), na.rm = TRUE),
+    sd_2015 = sd((`2015`), na.rm = TRUE),
+    sd_2016 = sd((`2016`), na.rm = TRUE),
+    sd_2017 = sd((`2017`), na.rm = TRUE),
+    sd_2018 = sd((`2018`), na.rm = TRUE),
+    sd_2019 = sd((`2019`), na.rm = TRUE),
+    sd_2020 = sd((`2020`), na.rm = TRUE),
+    sd_2021 = sd((`2021`), na.rm = TRUE),
+    sd_2022 = sd((`2022`), na.rm = TRUE)
+  ) %>%
+  gather(key = "year", value = "sd") %>%
+  mutate(year = as.numeric(str_extract(year, "\\d+"))) %>%
+  ggplot(aes(x = year, y = sd)) +
+  geom_point() +
+  geom_smooth(method = 'lm', na.rm = TRUE, se = FALSE) +
+  labs(
+    title = "Standard Deviation of Points per Race for Each Season",
+    x = "Season",
+    y = "Standard Deviation",
+    subtitle = '2009-2022'
+  )
+
+```
+
+Next, we graphed the Standard Deviation of Points per Race for Each Season of each constructor and driver. Throughout the 2009-2022 period, some new teams were created, other teams were shut down, and some teams changed hands via a sale. When looking at the standard deviation of both Constructor and Driver Points, it’s clear that 2009 is an anomaly with regards to the Standard Deviation of points. This is because in 2010, F1 changed how it awarded points going forward with points now being awarded to the top ten finishers on a sliding scale from 25-1 while prior to this, point was only awarded to the top eight finishers on a scale from 10-1. The next major change with regards to standard deviation for the drivers' championships occurred in 2012 when Formula 1 experienced one of its most competitive years ever. With the top two drivers separated by just three points, 281 to 278, and the top six separated by only 102 points, the standard deviation of points was quite low. In 2014, F1 begun its turbo hybrid era with a new V6 Engine and Mercedes was the one to capitalize on this. In the first season, the Mercedes team dominated with them having 701 points compared to Red Bull in second with 405. This dominance continued but the gap did decrease in 2015 and this can be seen on the constructor's graph. But Mercedes continued to improve until 2018 where the big teams like Ferrari and Red Bull began to catch up. However, this only differentiated the pack more so the standard deviation for the next seasons continued to increase.
+
+This trend was then broken in 2020 with Covid 19 as seen clearly on both graphs. During this time, development for teams was halted with some teams being more affected than others, this means that the field of cars got closer. Furthermore, there were less races in 2020 so the top teams had less points to increase their gap with. In 2021, Red Bull and Mercedes were evenly matched, and this is seen with the point for 2021 on both graphs being below the line. Finally, with the new era of formula one cars, red bull was one of the only teams to make a very good car so the points on both graphs shot back up.
+
+In conclusion the regulation changes overall have not increased competitiveness but has allowed individual races to become more competitive. The qualifying race times still trended upwards after the regulations; this shows that budget caps have not reduced the difference in car performance. The split time analysis does show a reduction since the introduction of the regulations showing that races were closer. The change in aerodynamics regulations having the intended effect of allowing races to follow each other more closely. The constructor and driver points standard deviation continued their trend of increasing, the regulation changes working as intended would hopefully see a drop in standard deviation but the trend of an increasing gap between high and low performing drivers and constructors has not been slowed. Overall, the dramatic changes in aerodynamics have allowed races to become closer but budget constraints haven’t stopped major constructors from dominating another season using their superior infrastructure. As this is the first year of these new cars, it may just take more time for all the teams to understand the new regulations and become more competitive.
+
 
 
 
@@ -97,6 +492,5 @@ Our analysis shows that while individual racers have perhaps benefited from the 
 
 ## References
 
-List any references here. You should, at a minimum, list your data source.
 
 Dataset:https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020 (27/10/2023)
