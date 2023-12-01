@@ -322,7 +322,7 @@ result_df <- bind_rows(
 
 ## Research Question
 
-For the 2022 season, Formula 1 overhauled its rules and regulations with regards to car design and also introduced a budget cap. The aim of these changes was to improve racing by making the cars have less complex and intricate bodies so that lessen their disruption of the airflow behind the car. Previously, the disrupted airflow would compromise the car behind as the aerodynamics on the car behind would be as effective. Typically, one effect of this was that very few overtakes occured which in turn led to boring races. With the cars from 2022 onwards, the cars can in theory follow each other more closely. Additionally, the budget cap will reduce the performance difference which will further improve overall racing. 
+For the 2022 season, Formula 1 overhauled its rules and regulations with regards to car design and also introduced a budget cap per constructor. The aim of these changes was to improve racing by making the cars have less complex and intricate bodies so that lessen their disruption of the airflow behind the car. Previously, the disrupted airflow would compromise the car behind as the aerodynamics on the car behind would be as effective. Typically, one effect of the disrupted airflow was that many races had few overtakes occur which in turn led to the races being boring for spectators. The cars from 2022 onward, however should be able to follow each other more closely. Additionally, the budget cap will reduce the performance difference which will further improve overall racing. 
 
 Did all of these changes have their intended effect?  
 
