@@ -322,19 +322,23 @@ result_df <- bind_rows(
 
 ## Research Question
 
-In 2022, Formula One completely changed the rules and regulations for the cars and introduce a budget cap. The aim being to improve the racing by making the cars have less complex and intricate bodies that disrupted the airflow behind the car. The disrupted airflow would compromise the car behind as the aerodynamics would not be able to act as effectively. This normally led to very few overtakes in boring races. But with these new cars, in theory, the cars can follow each other more closely and the budget cap will reduce the performance difference and improve racing overall. But did this work. Through data analysis, this group will determine whether these new rules worked.
+For the 2022 season, Formula 1 overhauled its rules and regulations with regards to car design and also introduced a budget cap. The aim of these changes was to improve racing by making the cars have less complex and intricate bodies so that lessen their disruption of the airflow behind the car. Previously, the disrupted airflow would compromise the car behind as the aerodynamics on the car behind would be as effective. Typically, one effect of this was that very few overtakes occured which in turn led to boring races. With the cars from 2022 onwards, the cars can in theory follow each other more closely. Additionally, the budget cap will reduce the performance difference which will further improve overall racing. 
+
+Did all of these changes have their intended effect?  
+
+Through data analysis, we will determine whether or not the new rules worked.
 
 
 
 ## Data
 
-This is a large data set containing all information on the Formula 1 races, drivers, constructors, qualifying, circuits, lap times, pit stops, championships from 1950 till the latest 2023 season.From this data, my group looked at 2009-2022 season as this was a much more modern era of F1. Older seasons would not help show an accurate . 
+This is a large data set containing all information on the Formula 1 races, drivers, constructors, qualifying, circuits, lap times, pit stops, championships from 1950 till the latest 2023 season. From this data, we looked at the 2009-2022 seasons as 2009 was the begining of a new era with regards to car design. 
 
-RaceID in results assigns a specific number to each race, this can be used to identify season by using the groupings we made.
-In the results table, milliseconds is the the time a driver took to finish a race,
-Driver id in drivers assigns each driver a number
-Points from Results shows the points each driver recieved from each race
-Q3 session from qualifying time of each driver from the third qualifying session. Q3 had to be converted from the time in minutes into milliseconds.
+RaceId in results assigns a specific number to each race, this can be used to identify the season by using the groupings we made.
+In the results table, milliseconds is the the time a driver took to finish a race.
+DriverId in drivers assigns each driver a number.
+Points from Results shows the points each driver received from each race.
+q3 contains the qualifying time of each driver from the third qualifying session. q3 had to be converted from time in minutes into milliseconds.
 
 
 
