@@ -1,7 +1,7 @@
 ---
 title: "Accelerating Fair Play?"
 subtitle: "A Comprehensive Analysis of the Impact of 2022 F1 Regulations on Racing Competitiveness"
-author: "Group 8: Dimitri Rao, Eric Zhang, Fergus Towler, & Moses Weintraub, Ray Zang"
+author: "Group 8: Dimitri Rao, Eric Zhang, Fergus Towler, Moses Weintraub, & Ray Zang"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
